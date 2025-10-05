@@ -1,5 +1,6 @@
-#include <stdio.h>
+/*#include <stdio.h>
 #include <stdlib.h>
+#define ITERATIONS 1
 
 void substitution(int * a, int k ) {
     switch (k%24) {
@@ -723,6 +724,18 @@ void printa(int * a) {
     }
     printf("\n");
 }
+void decryptionFuncOn4Bit(int a[4], int * k) {
+    for (int i = 0; i < ITERATIONS; ++i) {
+        printf("key: %d\n", *k);
+        keyTransformation(k);
+        transposition(&a[0], *k);
+        printa(a);
+        substitution(&a[0], *k);
+        substitution(&a[2], *k);
+        printa(a);
+
+    }
+}
 int main(void) {
     int a [4] = {0};
     int k=0;
@@ -735,6 +748,9 @@ int main(void) {
     printa(a);
     printf("key: ");
     scanf("%d", &k);
+    decryptionFuncOn4Bit(a, &k);
+
+    /*
     for (int i = 0; i < 2; ++i) {
         printf("key: %d\n", k);
         keyTransformation(&k);
@@ -744,9 +760,37 @@ int main(void) {
         substitution(&a[2], k);
         printa(a);
 
-    }
+    }#1#
     printf("Decrypted message: \n");
     printa(a);
     printf("with final key: %d \n", k);
 
+}*/
+#include <stdio.h>
+
+int main() {
+
+    // a = 5 (00000101 in 8-bit binary)
+    // b = 9 (00001001 in 8-bit binary)
+    unsigned int a = 2, b = 15;
+
+    // The result is 00000001
+    printf("a&b = %u\n", a & b);
+
+    // The result is 00001101
+    printf("a|b = %u\n", a | b);
+
+    // The result is 00001100
+    printf("a^b = %u\n", a ^ b);
+
+    // The result is 11111111111111111111111111111010
+    // (assuming 32-bit unsigned int)
+    printf("~a = %u\n", a = ~a);
+
+    // The result is 00010010
+    printf("b<<1 = %u\n", b << 1);
+
+    // The result is 00000100
+    printf("b>>1 = %u\n", b >> 1);
+    return 0;
 }

@@ -1,41 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*
-void ivert2Pos(char x, char y, FILE* ptr) {
-    fputc(x, ptr);
-    fputc(y, ptr);
-}
-
-int main(void) {
-    // File Pointer declared
-    FILE* ptr;
-
-    // File opened
-    ptr = fopen("TranspositionTable.txt", "a");
-
-    // Failed Condition
-    if (ptr == NULL) {
-        printf("Error Occurred While creating a "
-               "file !");
-        exit(1);
-    }
-    // Data to be inserted
-    char str[] = "This is all the Data to be inserted in "
-                 "File by GFG.";
-
-    // Puts data inside the file
-    fputs(str, ptr);
-
-
-    // File closed
-    fclose(ptr);
-    printf("Hello?\n");
-
-
-
-    return 0;
-}*/
+#define ITERATIONS 2
 
 void substitution(int * a, int k ) {
     switch (k%24) {
@@ -759,8 +725,85 @@ void printa(int * a) {
     }
     printf("\n");
 }
+void encryptionFuncOn4Bit(int a[4], int * k) {
+    //printf("new 4 bit encryption\n");
+    for (int i = 0; i < ITERATIONS; ++i) {
+        //printf("key: %d\n", *k);
+        //printa(a);
+        substitution(&a[0], *k);
+        substitution(&a[2], *k);
+        //printa(a);
+        transposition(&a[0], *k);
+        keyTransformation(k);
+        //printa(a);
+    }
+}
 int main(void) {
-    int a [4] = {0};
+    printf("Enter a string of max 128 chars: ");
+    char str[128];
+    //fgets(str, 128, stdin);
+    scanf("%[^\n]%*c", str);
+    int k=0;
+    printf("key: ");
+    scanf("%d", &k);
+    for (int i = 0; i < 128; ++i) {
+        if (str[i]==0)
+            break;
+
+        int firstHalf[4]={0};
+        int secondHalf[4]={0};
+        //char fh=str[i]<<4;//errore da risolvere
+        char fh=str[i] & 0xf;
+        char sh=str[i]>>4;
+
+        printf("fh: %d\n", fh);
+        char comparator=1;
+        for (int j = 0; j < 4; j++) {
+            if (fh & comparator) {
+                firstHalf[j] = 1;
+            }else {
+                firstHalf[j] = 0;
+            }
+            if (sh & comparator) {
+                secondHalf[j] = 1;
+            }else {
+                secondHalf[j] = 0;
+            }
+            comparator = comparator << 1;
+            /*firstHalf[j] = fh % 10 ;
+            fh = fh/10;
+            secondHalf[j] = sh % 10 ;
+            sh = sh/10;*/
+        }
+
+
+        int k1=k;
+        int k2=k;
+        encryptionFuncOn4Bit(firstHalf, &k1);
+        encryptionFuncOn4Bit(secondHalf, &k2);
+        k=k1;
+
+        fh=0;
+        sh=0;
+        for (int j = 3; j >= 0; j--) {
+            fh = fh+firstHalf[j];
+            fh=fh<<1;
+            sh= sh+secondHalf[j];
+            sh=sh<<1;
+            if (j==0)
+                sh=sh<<4;
+        }
+        str[i]=sh | fh;
+
+    }
+    printf("encrypted string: %s\nin hexa: ", str);
+    for (int i = 0; i < 128; ++i) {
+        if (str[i]==0)
+            break;
+        printf("%x", (unsigned char) str[i]);
+    }
+    printf("\nfinal key: %d", k);
+    /*int a [4] = {0};
     int k=0;
 
     for (int i = 0; i < 4; ++i) {
@@ -771,7 +814,8 @@ int main(void) {
     printa(a);
     printf("key: ");
     scanf("%d", &k);
-    for (int i = 0; i < 2; ++i) {
+    encryptionFuncOn4Bit(a, &k);
+    /*for (int i = 0; i < ITERATIONS; ++i) {
         printf("key: %d\n", k);
         substitution(&a[0], k);
         substitution(&a[2], k);
@@ -779,9 +823,9 @@ int main(void) {
         transposition(&a[0], k);
         printa(a);
         keyTransformation(&k);
-    }
+    }#1#
     printf("Encrypted message: \n");
     printa(a);
-    printf("with final key: %d \n", k);
+    printf("with final key: %d \n", k);*/
 
 }
