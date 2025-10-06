@@ -2,6 +2,10 @@
 #include <stdlib.h>
 
 #define ITERATIONS 2
+/*with iterations=2;
+mmmmmmmmmmmmmmmmmmmmmm  22chars
+ebb5c2d87ac72e3e8d7b7bd7ebb5c2d87ac72e3e8d7b  ek0 dk44   44chars
+b73cebb7dad2b8f876d4e94b73cebb7dad2b8f876d    ek1 dk45   42chars this doesn't work*/
 
 void substitution(int * a, int k ) {
     switch (k%24) {

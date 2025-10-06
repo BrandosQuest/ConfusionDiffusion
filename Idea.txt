@@ -43,3 +43,23 @@ cifrario a trasposizione 8! permutazioni = 40320 = 120960 B of info
 4231
 4312
 4321
+
+
+ITERATIONS = 2
+mmmmmmm  ek1
+mmmmmmÍ 6d6d6d6d6d6dd6 dk15
+
+mmmmmmm  ek3
+mmmmmËÎ 6d6d6d6d6dd3d7 dk17
+
+mmmmmmm  ek5
+mmmmËÍÈ 6d6d6d6dd3d6d4 dk19
+
+mmmmmmm  ek11
+mËÍ▄Ðð▀ 6dd3d6dcd1d0df dk25
+
+mmmmmmm  ek15
+mmmmmmm 6d6d6d6d6d6d6d dk29
+
+mmmmmmm  ek4
+mmmmmmm 6d6d6d6d6d6d6d dk18
