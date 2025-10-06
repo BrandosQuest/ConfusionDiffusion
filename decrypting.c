@@ -1,6 +1,6 @@
-/*#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
-#define ITERATIONS 1
+#define ITERATIONS 2
 
 void substitution(int * a, int k ) {
     switch (k%24) {
@@ -609,7 +609,8 @@ void transposition(int * a, int k ){
             break;
         case 7:
             a[1]=b[0];
-            a[2]=b[1];
+            //a[2]=b[1];
+            a[0]=b[1];
             a[3]=b[2];
             a[2]=b[3];
             break;
@@ -720,7 +721,7 @@ void keyTransformation(int * k) {
 void printa(int * a) {
     printf("array: ");
     for (int i = 0; i < 4; i++) {
-        printf("%d ", a[i]);
+        printf("%d ", a[3-i]);
     }
     printf("\n");
 }
@@ -729,15 +730,170 @@ void decryptionFuncOn4Bit(int a[4], int * k) {
         printf("key: %d\n", *k);
         keyTransformation(k);
         transposition(&a[0], *k);
-        printa(a);
+        //printa(a);
         substitution(&a[0], *k);
         substitution(&a[2], *k);
-        printa(a);
+        //printa(a);
 
     }
 }
+
 int main(void) {
-    int a [4] = {0};
+    printf("Enter a string of max 256 chars in hexa bytes: ");
+    char strInitial[256]={0};
+    char str[128]={0};
+    //fgets(str, 128, stdin);
+    scanf("%[^\n]%*c", strInitial);
+    int k=0;
+    printf("key: ");
+    scanf("%d", &k);
+
+    for (int i = 0; i < 256; i=i+2){
+        if (strInitial[i]==0)
+        {
+            break;
+        }
+        for (int j = 0; j < 2; ++j)
+        {
+            if (strInitial[i+j]==0)
+            {
+                break;
+            }
+            char valueOfChar=0;
+            switch (strInitial[i+j])
+            {
+                case '0':
+                valueOfChar=0;
+                break;
+                case '1':
+                valueOfChar=1;
+                break;
+                case '2':
+                valueOfChar=2;
+                break;
+                case '3':
+                valueOfChar=3;
+                break;
+                case '4':
+                valueOfChar=4;
+                break;
+                case '5':
+                valueOfChar=5;
+                break;
+                case '6':
+                valueOfChar=6;
+                break;
+                case '7':
+                valueOfChar=7;
+                break;
+                case '8':
+                valueOfChar=8;
+                break;
+                case '9':
+                valueOfChar=9;
+                break;
+                case 'a':
+                valueOfChar=10;
+                break;
+                case 'b':
+                valueOfChar=11;
+                break;
+                case 'c':
+                valueOfChar=12;
+                break;
+                case 'd':
+                valueOfChar=13;
+                break;
+                case 'e':
+                valueOfChar=14;
+                break;
+                case 'f':
+                valueOfChar=15;
+                break;
+                default:
+                printf("error in the translation of the string to hexa\n");
+                break;
+            }
+            if (j==0)
+            {
+                str[i/2]=valueOfChar*16;
+            }else
+            {
+                str[i/2]=str[i/2]+valueOfChar;
+            }
+        }
+    }
+    //printf("str: %s\n", str);
+
+    //for (int i = 0; i < 128; ++i) {
+    for (int i = 127; i >= 0; --i) {
+        if (str[i]==0)
+            //break;
+            continue;
+
+        int firstHalf[4]={0};
+        int secondHalf[4]={0};
+        //char fh=str[i]<<4;//errore da risolvere
+        char fh=str[i] & 0xf;
+        char sh=str[i]>>4;
+
+        //printf("fh: %d\n", fh);
+        char comparator=1;
+        for (int j = 0; j < 4; j++) {
+        //for (int j = 3; j >= 0; j--) {
+            if (fh & comparator) {
+                firstHalf[j] = 1;
+            }else {
+                firstHalf[j] = 0;
+            }
+            if (sh & comparator) {
+                secondHalf[j] = 1;
+            }else {
+                secondHalf[j] = 0;
+            }
+            comparator = comparator << 1;
+            /*firstHalf[j] = fh % 10 ;
+            fh = fh/10;
+            secondHalf[j] = sh % 10 ;
+            sh = sh/10;*/
+        }
+        printa(firstHalf);
+        printa(secondHalf);
+
+
+        int k1=k;
+        int k2=k;
+        decryptionFuncOn4Bit(firstHalf, &k1);
+        decryptionFuncOn4Bit(secondHalf, &k2);
+        k=k1;
+
+        printf("dec\n");
+        printa(firstHalf);
+        printa(secondHalf);
+
+        fh=0;
+        sh=0;
+        for (int j = 3; j >= 0; j--) {
+            fh=fh<<1;
+            fh = fh+firstHalf[j];
+            //fh=fh<<1;
+            sh=sh<<1;
+            sh= sh+secondHalf[j];
+            //sh=sh<<1;
+            if (j==0)
+                sh=sh<<4;
+        }
+        str[i]=sh | fh;
+
+    }
+    printf("decrypted string: %s\nin hexa: ", str);
+    for (int i = 0; i < 128; ++i) {
+        if (str[i]==0)
+            break;
+        printf("%x", (unsigned char) str[i]);
+    }
+    printf("\nfinal key: %d", k);
+    /*int a [4] = {0};
     int k=0;
 
     for (int i = 0; i < 4; ++i) {
@@ -763,10 +919,10 @@ int main(void) {
     }#1#
     printf("Decrypted message: \n");
     printa(a);
-    printf("with final key: %d \n", k);
+    printf("with final key: %d \n", k);*/
 
-}*/
-#include <stdio.h>
+}
+/*#include <stdio.h>
 
 int main() {
 
@@ -793,4 +949,4 @@ int main() {
     // The result is 00000100
     printf("b>>1 = %u\n", b >> 1);
     return 0;
-}
+}*/

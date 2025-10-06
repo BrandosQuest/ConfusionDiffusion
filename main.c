@@ -610,7 +610,8 @@ void transposition(int * a, int k ){
             break;
         case 7:
             a[0]=b[1];
-            a[1]=b[2];
+            //a[1]=b[2];
+            a[1]=b[0];
             a[2]=b[3];
             a[3]=b[2];
             break;
@@ -721,7 +722,7 @@ void keyTransformation(int * k) {
 void printa(int * a) {
     printf("array: ");
     for (int i = 0; i < 4; i++) {
-        printf("%d ", a[i]);
+        printf("%d ", a[3-i]);
     }
     printf("\n");
 }
@@ -740,7 +741,7 @@ void encryptionFuncOn4Bit(int a[4], int * k) {
 }
 int main(void) {
     printf("Enter a string of max 128 chars: ");
-    char str[128];
+    char str[128]={0};
     //fgets(str, 128, stdin);
     scanf("%[^\n]%*c", str);
     int k=0;
@@ -759,6 +760,7 @@ int main(void) {
         printf("fh: %d\n", fh);
         char comparator=1;
         for (int j = 0; j < 4; j++) {
+        //for (int j = 3; j >= 0; j--) {
             if (fh & comparator) {
                 firstHalf[j] = 1;
             }else {
@@ -775,7 +777,8 @@ int main(void) {
             secondHalf[j] = sh % 10 ;
             sh = sh/10;*/
         }
-
+        printa(firstHalf);
+        printa(secondHalf);
 
         int k1=k;
         int k2=k;
@@ -783,16 +786,24 @@ int main(void) {
         encryptionFuncOn4Bit(secondHalf, &k2);
         k=k1;
 
+        printf("en\n");
+        printa(firstHalf);
+        printa(secondHalf);
+
         fh=0;
         sh=0;
         for (int j = 3; j >= 0; j--) {
-            fh = fh+firstHalf[j];
             fh=fh<<1;
-            sh= sh+secondHalf[j];
+            fh = fh+firstHalf[j];
+            //fh=fh<<1;
             sh=sh<<1;
+            sh= sh+secondHalf[j];
+            //sh=sh<<1;
             if (j==0)
                 sh=sh<<4;
         }
+        printf("fh: %x\n",(unsigned char) fh);
+        printf("sh: %x\n",(unsigned char) sh);
         str[i]=sh | fh;
 
     }
