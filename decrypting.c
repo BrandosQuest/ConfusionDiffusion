@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define ITERATIONS 2
+#define ITERATIONS 22
 
 void substitution(int * a, int k ) {
     switch (k%24) {
@@ -890,7 +890,7 @@ int main(void) {
     for (int i = 0; i < 128; ++i) {
         if (str[i]==0)
             break;
-        printf("%x", (unsigned char) str[i]);
+        printf("%02x", (unsigned char) str[i]);
     }
     printf("\nfinal key: %d", k);
     /*int a [4] = {0};

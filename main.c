@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define ITERATIONS 2
+#define ITERATIONS 22
 /*with iterations=2;
 mmmmmmmmmmmmmmmmmmmmmm  22chars
 ebb5c2d87ac72e3e8d7b7bd7ebb5c2d87ac72e3e8d7b  ek0 dk44   44chars
@@ -806,8 +806,8 @@ int main(void) {
             if (j==0)
                 sh=sh<<4;
         }
-        printf("fh: %x\n",(unsigned char) fh);
-        printf("sh: %x\n",(unsigned char) sh);
+        printf("fh: %02x\n",(unsigned char) fh);
+        printf("sh: %02x\n",(unsigned char) sh);
         str[i]=sh | fh;
 
     }
@@ -815,7 +815,7 @@ int main(void) {
     for (int i = 0; i < 128; ++i) {
         if (str[i]==0)
             break;
-        printf("%x", (unsigned char) str[i]);
+        printf("%02x", (unsigned char) str[i]);
     }
     printf("\nfinal key: %d", k);
     /*int a [4] = {0};

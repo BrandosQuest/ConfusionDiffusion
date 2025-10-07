@@ -44,6 +44,12 @@ cifrario a trasposizione 8! permutazioni = 40320 = 120960 B of info
 4312
 4321
 
+m m m m m m m
+0 2 4 6 8 1012 ->14
+1 3 5 7 9 1113 ->15
+
+m=0x6d  0110 1101
+?=0xd6  1101 0110
 
 ITERATIONS = 2
 mmmmmmm  ek1
