@@ -715,6 +715,190 @@ void transposition(int * a, int k ){
             break;
     }
 }
+void transpositionProperAlgo(){
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (j==i)
+                continue;
+            int count=0;
+            for (int l = 0; l < 4; ++l) {
+                if (l==j || l==i)
+                    continue;
+                if (count==0) {//printa l e il prossimo numero che è diverso da i e j
+                    printf("%d",l);
+                    for (int m = 0; m < 4; ++m) {
+                        if (m==l || m==j || m==i)
+                            continue;
+                        printf("%d",m);
+                    }
+                }else {//printa il precedente numero che è diverso da i e j e poi l
+                    printf("%d",l);
+                    for (int m = 3; m >= 0; --m) {
+                        if (m==l || m==j || m==i)
+                            continue;
+                        printf("%d",m);
+                    }
+                }
+                printf("\t");
+                count++;
+            }
+        }
+        printf("\n");
+    }
+
+    /*
+    int b [4] = {a[0], a[1], a[2], a[3]};
+
+    switch (k%24) {
+        case 0:
+            a[0]=b[0];
+            a[1]=b[1];
+            a[2]=b[2];
+            a[3]=b[3];
+            break;
+        case 1:
+            a[0]=b[0];
+            a[1]=b[1];
+            a[2]=b[3];
+            a[3]=b[2];
+            break;
+        case 2:
+            a[0]=b[0];
+            a[1]=b[2];
+            a[2]=b[1];
+            a[3]=b[3];
+            break;
+        case 3:
+            a[0]=b[0];
+            a[1]=b[2];
+            a[2]=b[3];
+            a[3]=b[1];
+            break;
+        case 4:
+            a[0]=b[0];
+            a[1]=b[3];
+            a[2]=b[1];
+            a[3]=b[2];
+            break;
+        case 5:
+            a[0]=b[0];
+            a[1]=b[3];
+            a[2]=b[2];
+            a[3]=b[1];
+            break;
+        case 6:
+            a[0]=b[1];
+            a[1]=b[0];
+            a[2]=b[2];
+            a[3]=b[3];
+            break;
+        case 7:
+            a[0]=b[1];
+            a[1]=b[0];
+            a[2]=b[3];
+            a[3]=b[2];
+            break;
+        case 8:
+            a[0]=b[1];
+            a[1]=b[2];
+            a[2]=b[0];
+            a[3]=b[3];
+            break;
+        case 9:
+            a[0]=b[1];
+            a[1]=b[2];
+            a[2]=b[3];
+            a[3]=b[0];
+            break;
+        case 10:
+            a[0]=b[1];
+            a[1]=b[3];
+            a[2]=b[0];
+            a[3]=b[2];
+            break;
+        case 11:
+            a[0]=b[1];
+            a[1]=b[3];
+            a[2]=b[2];
+            a[3]=b[0];
+            break;
+        case 12:
+            a[0]=b[2];
+            a[1]=b[0];
+            a[2]=b[1];
+            a[3]=b[3];
+            break;
+        case 13:
+            a[0]=b[2];
+            a[1]=b[0];
+            a[2]=b[3];
+            a[3]=b[1];
+            break;
+        case 14:
+            a[0]=b[2];
+            a[1]=b[1];
+            a[2]=b[0];
+            a[3]=b[3];
+            break;
+        case 15:
+            a[0]=b[2];
+            a[1]=b[1];
+            a[2]=b[3];
+            a[3]=b[0];
+            break;
+        case 16:
+            a[0]=b[2];
+            a[1]=b[3];
+            a[2]=b[0];
+            a[3]=b[1];
+            break;
+        case 17:
+            a[0]=b[2];
+            a[1]=b[3];
+            a[2]=b[1];
+            a[3]=b[0];
+            break;
+        case 18:
+            a[0]=b[3];
+            a[1]=b[0];
+            a[2]=b[1];
+            a[3]=b[2];
+            break;
+        case 19:
+            a[0]=b[3];
+            a[1]=b[0];
+            a[2]=b[2];
+            a[3]=b[1];
+            break;
+        case 20:
+            a[0]=b[3];
+            a[1]=b[1];
+            a[2]=b[0];
+            a[3]=b[2];
+            break;
+        case 21:
+            a[0]=b[3];
+            a[1]=b[1];
+            a[2]=b[2];
+            a[3]=b[0];
+            break;
+        case 22:
+            a[0]=b[3];
+            a[1]=b[2];
+            a[2]=b[0];
+            a[3]=b[1];
+            break;
+        case 23:
+            a[0]=b[3];
+            a[1]=b[2];
+            a[2]=b[1];
+            a[3]=b[0];
+            break;
+        default:
+            printf("error!\n");
+            break;
+    }*/
+}
 void keyTransformation(int * k) {
     *k= *k+1;
 }
@@ -733,7 +917,10 @@ void encryptionFuncOn4Bit(int a[4], int * k) {
         keyTransformation(k);
     }
 }
+
 int main(void) {
+    transpositionProperAlgo();
+
     char str[128]={0};
 
     while (1) {
