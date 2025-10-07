@@ -1,11 +1,7 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 
-#define ITERATIONS 22
-/*with iterations=2;
-mmmmmmmmmmmmmmmmmmmmmm  22chars
-ebb5c2d87ac72e3e8d7b7bd7ebb5c2d87ac72e3e8d7b  ek0 dk44   44chars
-b73cebb7dad2b8f876d4e94b73cebb7dad2b8f876d    ek1 dk45   42chars this doesn't work*/
+#define ITERATIONS 222
 
 void substitution(int * a, int k ) {
     switch (k%24) {
@@ -614,7 +610,6 @@ void transposition(int * a, int k ){
             break;
         case 7:
             a[0]=b[1];
-            //a[1]=b[2];
             a[1]=b[0];
             a[2]=b[3];
             a[3]=b[2];
@@ -731,40 +726,58 @@ void printa(int * a) {
     printf("\n");
 }
 void encryptionFuncOn4Bit(int a[4], int * k) {
-    //printf("new 4 bit encryption\n");
     for (int i = 0; i < ITERATIONS; ++i) {
-        //printf("key: %d\n", *k);
-        //printa(a);
         substitution(&a[0], *k);
         substitution(&a[2], *k);
-        //printa(a);
         transposition(&a[0], *k);
         keyTransformation(k);
-        //printa(a);
     }
 }
 int main(void) {
-    printf("Enter a string of max 128 chars: ");
     char str[128]={0};
-    //fgets(str, 128, stdin);
-    scanf("%[^\n]%*c", str);
+
+    while (1) {
+        printf("Enter a string of max 127 chars: ");
+
+        if (!fgets(str, sizeof(str), stdin)) {
+            // Handle EOF (Ctrl+D / Ctrl+Z)
+            printf("Input error or EOF.\n");
+            return 1;
+        }
+
+        // Check if newline is present
+        size_t len = strlen(str);
+        if (len > 0 && str[len - 1] == '\n') {
+            // remove newline
+            str[len - 1] = '\0';
+            break; // success: input fits
+        } else {
+            // input too long — clear remaining chars from stdin
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
+            printf("Input too long, please enter at most 127 characters.\n");
+        }
+    }
+
     int k=0;
     printf("key: ");
     scanf("%d", &k);
+
+    //for every character in the string
     for (int i = 0; i < 128; ++i) {
-        if (str[i]==0)
+        if (str[i]==0)//if its the end get out
             break;
 
+        //I divide every char into the 2 4 bit nibbles that compone it, into the firstHalf,secondHalf arrays
+        //if it is 0001 1000 it is divided in firstHalf= 1000, secondHalf= 0001
         int firstHalf[4]={0};
         int secondHalf[4]={0};
-        //char fh=str[i]<<4;//errore da risolvere
         char fh=str[i] & 0xf;
         char sh=str[i]>>4;
 
-        printf("fh: %d\n", fh);
+        //for every position of the comparator I select that bit to put into the corresponding array
         char comparator=1;
         for (int j = 0; j < 4; j++) {
-        //for (int j = 3; j >= 0; j--) {
             if (fh & comparator) {
                 firstHalf[j] = 1;
             }else {
@@ -776,41 +789,29 @@ int main(void) {
                 secondHalf[j] = 0;
             }
             comparator = comparator << 1;
-            /*firstHalf[j] = fh % 10 ;
-            fh = fh/10;
-            secondHalf[j] = sh % 10 ;
-            sh = sh/10;*/
         }
-        printa(firstHalf);
-        printa(secondHalf);
 
+        //I call the encryption on the 2 nibbles using the same value key
         int k1=k;
         int k2=k;
         encryptionFuncOn4Bit(firstHalf, &k1);
         encryptionFuncOn4Bit(secondHalf, &k2);
         k=k1;
 
-        printf("en\n");
-        printa(firstHalf);
-        printa(secondHalf);
-
+        //I combine the 2 encrypted arrays together into the final string
         fh=0;
         sh=0;
         for (int j = 3; j >= 0; j--) {
             fh=fh<<1;
             fh = fh+firstHalf[j];
-            //fh=fh<<1;
             sh=sh<<1;
             sh= sh+secondHalf[j];
-            //sh=sh<<1;
             if (j==0)
                 sh=sh<<4;
         }
-        printf("fh: %02x\n",(unsigned char) fh);
-        printf("sh: %02x\n",(unsigned char) sh);
         str[i]=sh | fh;
-
     }
+    //I display the output
     printf("encrypted string: %s\nin hexa: ", str);
     for (int i = 0; i < 128; ++i) {
         if (str[i]==0)
@@ -818,29 +819,5 @@ int main(void) {
         printf("%02x", (unsigned char) str[i]);
     }
     printf("\nfinal key: %d", k);
-    /*int a [4] = {0};
-    int k=0;
-
-    for (int i = 0; i < 4; ++i) {
-        printf("value %d: ", i);
-        scanf("%d", &a[i]);
-        //printf("%p ", &a[i]);
-    }
-    printa(a);
-    printf("key: ");
-    scanf("%d", &k);
-    encryptionFuncOn4Bit(a, &k);
-    /*for (int i = 0; i < ITERATIONS; ++i) {
-        printf("key: %d\n", k);
-        substitution(&a[0], k);
-        substitution(&a[2], k);
-        printa(a);
-        transposition(&a[0], k);
-        printa(a);
-        keyTransformation(&k);
-    }#1#
-    printf("Encrypted message: \n");
-    printa(a);
-    printf("with final key: %d \n", k);*/
-
+    return 0;
 }

@@ -1,8 +1,9 @@
 #include <stdio.h>
-#include <stdlib.h>
-#define ITERATIONS 22
+#include <string.h>
 
-void substitution(int * a, int k ) {
+#define ITERATIONS 222
+
+void DEsubstitution(int * a, int k ) {
     switch (k%24) {
         case 0:
             switch ((a[0]*10)+a[1]) {
@@ -561,7 +562,7 @@ void substitution(int * a, int k ) {
             break;
     }
 }
-void transposition(int * a, int k ){
+void DEtransposition(int * a, int k ){
     int b [4] = {a[0], a[1], a[2], a[3]};
 
     switch (k%24) {
@@ -609,7 +610,6 @@ void transposition(int * a, int k ){
             break;
         case 7:
             a[1]=b[0];
-            //a[2]=b[1];
             a[0]=b[1];
             a[3]=b[2];
             a[2]=b[3];
@@ -715,10 +715,10 @@ void transposition(int * a, int k ){
             break;
     }
 }
-void keyTransformation(int * k) {
+void DEkeyTransformation(int * k) {
     *k= *k-1;
 }
-void printa(int * a) {
+void DEprinta(int * a) {
     printf("array: ");
     for (int i = 0; i < 4; i++) {
         printf("%d ", a[3-i]);
@@ -727,27 +727,13 @@ void printa(int * a) {
 }
 void decryptionFuncOn4Bit(int a[4], int * k) {
     for (int i = 0; i < ITERATIONS; ++i) {
-        printf("key: %d\n", *k);
-        keyTransformation(k);
-        transposition(&a[0], *k);
-        //printa(a);
-        substitution(&a[0], *k);
-        substitution(&a[2], *k);
-        //printa(a);
-
+        DEkeyTransformation(k);
+        DEtransposition(&a[0], *k);
+        DEsubstitution(&a[0], *k);
+        DEsubstitution(&a[2], *k);
     }
 }
-
-int main(void) {
-    printf("Enter a string of max 256 chars in hexa bytes: ");
-    char strInitial[256]={0};
-    char str[128]={0};
-    //fgets(str, 128, stdin);
-    scanf("%[^\n]%*c", strInitial);
-    int k=0;
-    printf("key: ");
-    scanf("%d", &k);
-
+void hexaStringTo8BitChars(char strInitial[256], char str[128]) {
     for (int i = 0; i < 256; i=i+2){
         if (strInitial[i]==0)
         {
@@ -763,56 +749,56 @@ int main(void) {
             switch (strInitial[i+j])
             {
                 case '0':
-                valueOfChar=0;
-                break;
+                    valueOfChar=0;
+                    break;
                 case '1':
-                valueOfChar=1;
-                break;
+                    valueOfChar=1;
+                    break;
                 case '2':
-                valueOfChar=2;
-                break;
+                    valueOfChar=2;
+                    break;
                 case '3':
-                valueOfChar=3;
-                break;
+                    valueOfChar=3;
+                    break;
                 case '4':
-                valueOfChar=4;
-                break;
+                    valueOfChar=4;
+                    break;
                 case '5':
-                valueOfChar=5;
-                break;
+                    valueOfChar=5;
+                    break;
                 case '6':
-                valueOfChar=6;
-                break;
+                    valueOfChar=6;
+                    break;
                 case '7':
-                valueOfChar=7;
-                break;
+                    valueOfChar=7;
+                    break;
                 case '8':
-                valueOfChar=8;
-                break;
+                    valueOfChar=8;
+                    break;
                 case '9':
-                valueOfChar=9;
-                break;
+                    valueOfChar=9;
+                    break;
                 case 'a':
-                valueOfChar=10;
-                break;
+                    valueOfChar=10;
+                    break;
                 case 'b':
-                valueOfChar=11;
-                break;
+                    valueOfChar=11;
+                    break;
                 case 'c':
-                valueOfChar=12;
-                break;
+                    valueOfChar=12;
+                    break;
                 case 'd':
-                valueOfChar=13;
-                break;
+                    valueOfChar=13;
+                    break;
                 case 'e':
-                valueOfChar=14;
-                break;
+                    valueOfChar=14;
+                    break;
                 case 'f':
-                valueOfChar=15;
-                break;
+                    valueOfChar=15;
+                    break;
                 default:
-                printf("error in the translation of the string to hexa\n");
-                break;
+                    printf("error in the translation of the string to hexa\n");
+                    break;
             }
             if (j==0)
             {
@@ -823,24 +809,57 @@ int main(void) {
             }
         }
     }
-    //printf("str: %s\n", str);
 
-    //for (int i = 0; i < 128; ++i) {
+}
+
+int main(void) {
+    char strInitial[256]={0};
+    while (1) {
+        printf("Enter a string of max 255 chars (it should be a even number): ");
+
+        if (!fgets(strInitial, sizeof(strInitial), stdin)) {
+            // Handle EOF (Ctrl+D / Ctrl+Z)
+            printf("Input error or EOF.\n");
+            return 1;
+        }
+
+        // Check if newline is present
+        size_t len = strlen(strInitial);
+        if (len > 0 && strInitial[len - 1] == '\n') {
+            // remove newline
+            strInitial[len - 1] = '\0';
+            break; // success: input fits
+        } else {
+            // input too long — clear remaining chars from stdin
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
+            printf("Input too long, please enter at most 255 characters.\n");
+        }
+    }
+
+    int k=0;
+    printf("key: ");
+    scanf("%d", &k);
+
+    char str[128]={0};
+    //I convert the Hexa value displayed by chars in the input string in real 8 bit chars in a string of 128
+    hexaStringTo8BitChars(strInitial, str);
+
+    //for every character in the string
     for (int i = 127; i >= 0; --i) {
-        if (str[i]==0)
-            //break;
+        if (str[i]==0)//if its the end get out
             continue;
 
+        //I divide every char into the 2 4 bit nibbles that compone it, into the firstHalf,secondHalf arrays
+        //if it is 0001 1000 it is divided in firstHalf= 1000, secondHalf= 0001
         int firstHalf[4]={0};
         int secondHalf[4]={0};
-        //char fh=str[i]<<4;//errore da risolvere
         char fh=str[i] & 0xf;
         char sh=str[i]>>4;
 
-        //printf("fh: %d\n", fh);
+        //for every position of the comparator I select that bit to put into the corresponding array
         char comparator=1;
         for (int j = 0; j < 4; j++) {
-        //for (int j = 3; j >= 0; j--) {
             if (fh & comparator) {
                 firstHalf[j] = 1;
             }else {
@@ -852,40 +871,30 @@ int main(void) {
                 secondHalf[j] = 0;
             }
             comparator = comparator << 1;
-            /*firstHalf[j] = fh % 10 ;
-            fh = fh/10;
-            secondHalf[j] = sh % 10 ;
-            sh = sh/10;*/
         }
-        printa(firstHalf);
-        printa(secondHalf);
 
-
+        //I call the decryption on the 2 nibbles using the same value key
         int k1=k;
         int k2=k;
         decryptionFuncOn4Bit(firstHalf, &k1);
         decryptionFuncOn4Bit(secondHalf, &k2);
         k=k1;
 
-        printf("dec\n");
-        printa(firstHalf);
-        printa(secondHalf);
-
+        //I combine the 2 encrypted arrays together into the final string
         fh=0;
         sh=0;
         for (int j = 3; j >= 0; j--) {
             fh=fh<<1;
             fh = fh+firstHalf[j];
-            //fh=fh<<1;
             sh=sh<<1;
             sh= sh+secondHalf[j];
-            //sh=sh<<1;
             if (j==0)
                 sh=sh<<4;
         }
         str[i]=sh | fh;
-
     }
+
+    //I display the output
     printf("decrypted string: %s\nin hexa: ", str);
     for (int i = 0; i < 128; ++i) {
         if (str[i]==0)
@@ -893,60 +902,5 @@ int main(void) {
         printf("%02x", (unsigned char) str[i]);
     }
     printf("\nfinal key: %d", k);
-    /*int a [4] = {0};
-    int k=0;
-
-    for (int i = 0; i < 4; ++i) {
-        printf("value %d: ", i);
-        scanf("%d", &a[i]);
-        //printf("%p ", &a[i]);
-    }
-    printa(a);
-    printf("key: ");
-    scanf("%d", &k);
-    decryptionFuncOn4Bit(a, &k);
-
-    /*
-    for (int i = 0; i < 2; ++i) {
-        printf("key: %d\n", k);
-        keyTransformation(&k);
-        transposition(&a[0], k);
-        printa(a);
-        substitution(&a[0], k);
-        substitution(&a[2], k);
-        printa(a);
-
-    }#1#
-    printf("Decrypted message: \n");
-    printa(a);
-    printf("with final key: %d \n", k);*/
-
-}
-/*#include <stdio.h>
-
-int main() {
-
-    // a = 5 (00000101 in 8-bit binary)
-    // b = 9 (00001001 in 8-bit binary)
-    unsigned int a = 2, b = 15;
-
-    // The result is 00000001
-    printf("a&b = %u\n", a & b);
-
-    // The result is 00001101
-    printf("a|b = %u\n", a | b);
-
-    // The result is 00001100
-    printf("a^b = %u\n", a ^ b);
-
-    // The result is 11111111111111111111111111111010
-    // (assuming 32-bit unsigned int)
-    printf("~a = %u\n", a = ~a);
-
-    // The result is 00010010
-    printf("b<<1 = %u\n", b << 1);
-
-    // The result is 00000100
-    printf("b>>1 = %u\n", b >> 1);
     return 0;
-}*/
+}
