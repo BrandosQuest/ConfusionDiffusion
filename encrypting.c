@@ -3,6 +3,13 @@
 
 #define ITERATIONS 222
 
+void printa(int * a) {
+    printf("array: ");
+    for (int i = 0; i < 4; i++) {
+        printf("%d ", a[3-i]);
+    }
+    printf("\n");
+}
 void substitution(int * a, int k ) {
     switch (k%24) {
         case 0:
@@ -715,8 +722,55 @@ void transposition(int * a, int k ){
             break;
     }
 }
-void transpositionProperAlgo(){
+void arrayOfIndexesAllCombinations(int a[4], int k) {
     int counter=0;
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (j==i)
+                continue;
+            int count=0;
+            for (int l = 0; l < 4; ++l) {
+                if (l==j || l==i)
+                    continue;
+                if (counter==k){
+                    if (count==0) {//printa l e il prossimo numero che è diverso da i e j
+                        //printf("%d", i);
+                        a[0]=i;
+                        //printf("%d", j);
+                        a[1]=j;
+                        //printf("%d",l);
+                        a[2]=l;
+                        for (int m = 0; m < 4; ++m) {
+                            if (m==l || m==j || m==i)
+                                continue;
+                            //printf("%d",m);
+                            a[3]=m;
+                        }
+                    }else {//printa il precedente numero che è diverso da i e j e poi l
+                        //printf("%d", i);
+                        a[0]=i;
+                        //printf("%d", j);
+                        a[1]=j;
+                        //printf("%d",l);
+                        a[2]=l;
+                        for (int m = 3; m >= 0; --m) {
+                            if (m==l || m==j || m==i)
+                                continue;
+                            //printf("%d",m);
+                            a[3]=m;
+                        }
+                    }
+                }
+                //printf("\t");
+                count++;
+                counter++;
+            }
+        }
+        //printf("\n");
+    }
+}
+void transpositionProperAlgo(int * a, int k ){
+    /*
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 4; ++j) {
             if (j==i)
@@ -750,6 +804,18 @@ void transpositionProperAlgo(){
         }
         printf("\n");
     }
+    */
+    int c[4]={0};
+    /*for (int i = 0; i < 24; ++i) {
+        arrayOfIndexAllCombinations(c, i);
+        printa(c);
+    }*/
+    arrayOfIndexesAllCombinations(c, k);
+    int b [4] = {a[0], a[1], a[2], a[3]};
+    for (int i = 0; i < 4; ++i) {
+        a[i]=b[c[i]];
+    }
+
 
     /*
     int b [4] = {a[0], a[1], a[2], a[3]};
@@ -907,25 +973,17 @@ void transpositionProperAlgo(){
 void keyTransformation(int * k) {
     *k= *k+1;
 }
-void printa(int * a) {
-    printf("array: ");
-    for (int i = 0; i < 4; i++) {
-        printf("%d ", a[3-i]);
-    }
-    printf("\n");
-}
 void encryptionFuncOn4Bit(int a[4], int * k) {
     for (int i = 0; i < ITERATIONS; ++i) {
         substitution(&a[0], *k);
         substitution(&a[2], *k);
         transposition(&a[0], *k);
+        //transpositionProperAlgo(&a[0], *k);
         keyTransformation(k);
     }
 }
 
 int main(void) {
-    transpositionProperAlgo();
-
     char str[128]={0};
 
     while (1) {

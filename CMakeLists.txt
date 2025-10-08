@@ -3,5 +3,5 @@ project(ConfusionDiffusion_ C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(ConfusionDiffusion_ main.c
+add_executable(ConfusionDiffusion_ encrypting.c
         decrypting.c)
