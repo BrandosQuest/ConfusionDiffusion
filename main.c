@@ -716,6 +716,7 @@ void transposition(int * a, int k ){
     }
 }
 void transpositionProperAlgo(){
+    int counter=0;
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 4; ++j) {
             if (j==i)
@@ -725,6 +726,8 @@ void transpositionProperAlgo(){
                 if (l==j || l==i)
                     continue;
                 if (count==0) {//printa l e il prossimo numero che è diverso da i e j
+                    printf("%d", i);
+                    printf("%d", j);
                     printf("%d",l);
                     for (int m = 0; m < 4; ++m) {
                         if (m==l || m==j || m==i)
@@ -732,6 +735,8 @@ void transpositionProperAlgo(){
                         printf("%d",m);
                     }
                 }else {//printa il precedente numero che è diverso da i e j e poi l
+                    printf("%d", i);
+                    printf("%d", j);
                     printf("%d",l);
                     for (int m = 3; m >= 0; --m) {
                         if (m==l || m==j || m==i)
