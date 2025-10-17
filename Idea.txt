@@ -69,3 +69,14 @@ mmmmmmm 6d6d6d6d6d6d6d dk29
 
 mmmmmmm  ek4
 mmmmmmm 6d6d6d6d6d6d6d dk18
+
+gotta solve the "On branch main
+                Your branch is up to date with 'origin/main'."
+                being only treated as one line discarding the rest "On branch main"
+
+                I think is impossible, because the new line char is by default the "send" signal to the buffer to be
+                transformed ina string
+
+
+gotta do the proper algo, even recursive if possible(so not working on nibbles, but bytes)
+gotta do a proper block cipher so implementing a variable size

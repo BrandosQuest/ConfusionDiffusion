@@ -5,10 +5,13 @@
 
 void printa(int * a) {
     printf("array: ");
+    fflush(stdout);
     for (int i = 0; i < 4; i++) {
         printf("%d ", a[3-i]);
+        fflush(stdout);
     }
     printf("\n");
+    fflush(stdout);
 }
 void substitution(int * a, int k ) {
     switch (k%24) {
@@ -569,6 +572,638 @@ void substitution(int * a, int k ) {
             break;
     }
 }
+void arrayOfIndexesAllPossibleCombinations(int a[4], int k) {
+    int counter=0;
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (j==i)
+                continue;
+            int count=0;
+            for (int l = 0; l < 4; ++l) {
+                if (l==j || l==i)
+                    continue;
+                if (counter==k%24){
+                    if (count==0) {//printa l e il prossimo numero che è diverso da i e j
+                        //printf("%d", i);
+                        a[0]=i;
+                        //printf("%d", j);
+                        a[1]=j;
+                        //printf("%d",l);
+                        a[2]=l;
+                        for (int m = 0; m < 4; ++m) {
+                            if (m==l || m==j || m==i)
+                                continue;
+                            //printf("%d",m);
+                            a[3]=m;
+                        }
+                    }else {//printa il precedente numero che è diverso da i e j e poi l
+                        //printf("%d", i);
+                        a[0]=i;
+                        //printf("%d", j);
+                        a[1]=j;
+                        //printf("%d",l);
+                        a[2]=l;
+                        for (int m = 3; m >= 0; --m) {
+                            if (m==l || m==j || m==i)
+                                continue;
+                            //printf("%d",m);
+                            a[3]=m;
+                        }
+                    }
+                }
+                //printf("\t");
+                count++;
+                counter++;
+            }
+        }
+        //printf("\n");
+    }
+}
+void substitutionProperAlgo(int * a, int k ) {
+    int c[4]={0};
+    unsigned char TwoBitCombinations[4][2]={{0,0}, {0,1}, {1,0},{1,1}};
+    arrayOfIndexesAllPossibleCombinations(c, k);
+    switch ((a[0]*10)+a[1]) {
+        case 0://00
+            a[0]=TwoBitCombinations[c[0]][0];
+            a[1]=TwoBitCombinations[c[0]][1];
+            break;
+        case 1://01
+            a[0]=TwoBitCombinations[c[1]][0];
+            a[1]=TwoBitCombinations[c[1]][1];
+            break;
+        case 10://10
+            a[0]=TwoBitCombinations[c[2]][0];
+            a[1]=TwoBitCombinations[c[2]][1];
+            break;
+        case 11://11
+            a[0]=TwoBitCombinations[c[3]][0];
+            a[1]=TwoBitCombinations[c[3]][1];
+            break;
+        default:
+            printf("Incorrect syntax!\n");
+            break;
+    }
+    /*
+    switch (k%24) {
+        case 0:
+            switch ((a[0]*10)+a[1]) {
+                case 0://00
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+                case 1://01
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+                case 10://10
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+                case 11://11
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+                default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 1:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 1://01
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 10://10
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 11://11
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 2:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 1://01
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 10://10
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 11://11
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 3:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 1://01
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 10://10
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 11://11
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 4:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 1://01
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 10://10
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 11://11
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 5:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 1://01
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 10://10
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 11://11
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 6:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                a[0]=0;
+                a[1]=1;
+                break;
+            case 1://01
+                a[0]=0;
+                a[1]=0;
+                break;
+            case 10://10
+                a[0]=1;
+                a[1]=0;
+                break;
+            case 11://11
+                a[0]=1;
+                a[1]=1;
+                break;
+            default:
+                printf("Incorrect syntax!\n");
+                break;
+        }
+            break;
+        case 7:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 1://01
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 10://10
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 11://11
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 8:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 1://01
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 10://10
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 11://11
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 9:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 1://01
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 10://10
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 11://11
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 10:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 1://01
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 10://10
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 11://11
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 11:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 1://01
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 10://10
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 11://11
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 12:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 1://01
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 10://10
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 11://11
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 13:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 1://01
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 10://10
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 11://11
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 14:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 1://01
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 10://10
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 11://11
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 15:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 1://01
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 10://10
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 11://11
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 16:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 1://01
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 10://10
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 11://11
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 17:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 1://01
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 10://10
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 11://11
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 18:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 1://01
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 10://10
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 11://11
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 19:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 1://01
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 10://10
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 11://11
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 20:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 1://01
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 10://10
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 11://11
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 21:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 1://01
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 10://10
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 11://11
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 22:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 1://01
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 10://10
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            case 11://11
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        case 23:
+            switch ((a[0]*10)+a[1]) {
+            case 0://00
+                    a[0]=1;
+                    a[1]=1;
+                    break;
+            case 1://01
+                    a[0]=1;
+                    a[1]=0;
+                    break;
+            case 10://10
+                    a[0]=0;
+                    a[1]=1;
+                    break;
+            case 11://11
+                    a[0]=0;
+                    a[1]=0;
+                    break;
+            default:
+                    printf("Incorrect syntax!\n");
+                    break;
+            }
+            break;
+        default:
+            printf("error!\n");
+            break;
+    }
+*/
+}
 void transposition(int * a, int k ){
     int b [4] = {a[0], a[1], a[2], a[3]};
 
@@ -722,53 +1357,6 @@ void transposition(int * a, int k ){
             break;
     }
 }
-void arrayOfIndexesAllCombinations(int a[4], int k) {
-    int counter=0;
-    for (int i = 0; i < 4; ++i) {
-        for (int j = 0; j < 4; ++j) {
-            if (j==i)
-                continue;
-            int count=0;
-            for (int l = 0; l < 4; ++l) {
-                if (l==j || l==i)
-                    continue;
-                if (counter==k){
-                    if (count==0) {//printa l e il prossimo numero che è diverso da i e j
-                        //printf("%d", i);
-                        a[0]=i;
-                        //printf("%d", j);
-                        a[1]=j;
-                        //printf("%d",l);
-                        a[2]=l;
-                        for (int m = 0; m < 4; ++m) {
-                            if (m==l || m==j || m==i)
-                                continue;
-                            //printf("%d",m);
-                            a[3]=m;
-                        }
-                    }else {//printa il precedente numero che è diverso da i e j e poi l
-                        //printf("%d", i);
-                        a[0]=i;
-                        //printf("%d", j);
-                        a[1]=j;
-                        //printf("%d",l);
-                        a[2]=l;
-                        for (int m = 3; m >= 0; --m) {
-                            if (m==l || m==j || m==i)
-                                continue;
-                            //printf("%d",m);
-                            a[3]=m;
-                        }
-                    }
-                }
-                //printf("\t");
-                count++;
-                counter++;
-            }
-        }
-        //printf("\n");
-    }
-}
 void transpositionProperAlgo(int * a, int k ){
     /*
     for (int i = 0; i < 4; ++i) {
@@ -810,7 +1398,7 @@ void transpositionProperAlgo(int * a, int k ){
         arrayOfIndexAllCombinations(c, i);
         printa(c);
     }*/
-    arrayOfIndexesAllCombinations(c, k);
+    arrayOfIndexesAllPossibleCombinations(c, k);
     int b [4] = {a[0], a[1], a[2], a[3]};
     for (int i = 0; i < 4; ++i) {
         a[i]=b[c[i]];
@@ -975,10 +1563,13 @@ void keyTransformation(int * k) {
 }
 void encryptionFuncOn4Bit(int a[4], int * k) {
     for (int i = 0; i < ITERATIONS; ++i) {
-        substitution(&a[0], *k);
-        substitution(&a[2], *k);
-        transposition(&a[0], *k);
-        //transpositionProperAlgo(&a[0], *k);
+        // substitution(&a[0], *k);
+        // substitution(&a[2], *k);
+        substitutionProperAlgo(&a[0], *k);
+        substitutionProperAlgo(&a[2], *k);
+        //transposition(&a[0], *k);
+        transpositionProperAlgo(&a[0], *k);
+        //printa(&a[0]);
         keyTransformation(k);
     }
 }
@@ -988,6 +1579,7 @@ int main(void) {
 
     while (1) {
         printf("Enter a string of max 127 chars: ");
+        fflush(stdout);
 
         if (!fgets(str, sizeof(str), stdin)) {
             // Handle EOF (Ctrl+D / Ctrl+Z)
@@ -1011,6 +1603,7 @@ int main(void) {
 
     int k=0;
     printf("key: ");
+    fflush(stdout);
     scanf("%d", &k);
 
     //for every character in the string
