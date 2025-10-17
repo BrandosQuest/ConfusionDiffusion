@@ -92,13 +92,9 @@ void keyTransformation(int * k) {
 }
 void encryptionFuncOn4Bit(int a[4], int * k) {
     for (int i = 0; i < ITERATIONS; ++i) {
-        // substitution(&a[0], *k);
-        // substitution(&a[2], *k);
         substitutionProperAlgo(&a[0], *k);
         substitutionProperAlgo(&a[2], *k);
-        //transposition(&a[0], *k);
         transpositionProperAlgo(&a[0], *k);
-        //printa(&a[0]);
         keyTransformation(k);
     }
 }
