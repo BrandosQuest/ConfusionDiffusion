@@ -1,9 +1,103 @@
 #include <stdio.h>
 #include <string.h>
 
-#define ITERATIONS 222
+#define ITERATIONS 223
 
-void DEsubstitution(int * a, int k ) {
+void DEarrayOfIndexesAllPossibleCombinations(int a[4], int k) {
+    int counter=0;
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (j==i)
+                continue;
+            int count=0;
+            for (int l = 0; l < 4; ++l) {
+                if (l==j || l==i)
+                    continue;
+                if (counter==k%24){
+                    if (count==0) {//printa l e il prossimo numero che è diverso da i e j
+                        //printf("%d", i);
+                        a[0]=i;
+                        //printf("%d", j);
+                        a[1]=j;
+                        //printf("%d",l);
+                        a[2]=l;
+                        for (int m = 0; m < 4; ++m) {
+                            if (m==l || m==j || m==i)
+                                continue;
+                            //printf("%d",m);
+                            a[3]=m;
+                        }
+                    }else {//printa il precedente numero che è diverso da i e j e poi l
+                        //printf("%d", i);
+                        a[0]=i;
+                        //printf("%d", j);
+                        a[1]=j;
+                        //printf("%d",l);
+                        a[2]=l;
+                        for (int m = 3; m >= 0; --m) {
+                            if (m==l || m==j || m==i)
+                                continue;
+                            //printf("%d",m);
+                            a[3]=m;
+                        }
+                    }
+                }
+                //printf("\t");
+                count++;
+                counter++;
+            }
+        }
+        //printf("\n");
+    }
+}
+void DEsubstitutionProperAlgo(int * a, int k ) {
+    int c[4]={0};
+    unsigned char TwoBitCombinations[4][2]={{0,0}, {0,1}, {1,0},{1,1}};
+    DEarrayOfIndexesAllPossibleCombinations(c, k);
+    int i=0;
+    switch ((a[0]*10)+a[1]) {
+        case 0://00
+        for (i = 0; i < 4; ++i)
+        {
+            if (c[i]==0)
+                break;
+        }
+        a[0]=TwoBitCombinations[i][0];
+        a[1]=TwoBitCombinations[i][1];
+            break;
+        case 1://01
+        for (i = 0; i < 4; ++i)
+        {
+            if (c[i]==1)
+                break;
+        }
+        a[0]=TwoBitCombinations[i][0];
+        a[1]=TwoBitCombinations[i][1];
+            break;
+        case 10://10
+        for (i = 0; i < 4; ++i)
+        {
+            if (c[i]==2)
+                break;
+        }
+        a[0]=TwoBitCombinations[i][0];
+        a[1]=TwoBitCombinations[i][1];
+            break;
+        case 11://11
+
+            for (i = 0; i < 4; ++i)
+            {
+                if (c[i]==3)
+                    break;
+            }
+            a[0]=TwoBitCombinations[i][0];
+            a[1]=TwoBitCombinations[i][1];
+            break;
+        default:
+            printf("Incorrect syntax!\n");
+            break;
+    }
+    /*
     switch (k%24) {
         case 0:
             switch ((a[0]*10)+a[1]) {
@@ -561,8 +655,60 @@ void DEsubstitution(int * a, int k ) {
             printf("error!\n");
             break;
     }
+*/
 }
-void DEtransposition(int * a, int k ){
+void DEtranspositionProperAlgo(int * a, int k ){
+    /*
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (j==i)
+                continue;
+            int count=0;
+            for (int l = 0; l < 4; ++l) {
+                if (l==j || l==i)
+                    continue;
+                if (count==0) {//printa l e il prossimo numero che è diverso da i e j
+                    printf("%d", i);
+                    printf("%d", j);
+                    printf("%d",l);
+                    for (int m = 0; m < 4; ++m) {
+                        if (m==l || m==j || m==i)
+                            continue;
+                        printf("%d",m);
+                    }
+                }else {//printa il precedente numero che è diverso da i e j e poi l
+                    printf("%d", i);
+                    printf("%d", j);
+                    printf("%d",l);
+                    for (int m = 3; m >= 0; --m) {
+                        if (m==l || m==j || m==i)
+                            continue;
+                        printf("%d",m);
+                    }
+                }
+                printf("\t");
+                count++;
+            }
+        }
+        printf("\n");
+    }
+    */
+    int c[4]={0};
+    /*for (int i = 0; i < 24; ++i) {
+        arrayOfIndexAllCombinations(c, i);
+        printa(c);
+    }*/
+    DEarrayOfIndexesAllPossibleCombinations(c, k);
+    int b [4] = {a[0], a[1], a[2], a[3]};
+    for (int i = 0; i < 4; ++i) {
+        a[c[i]]=b[i];
+    }
+    /*a[0]=b[0];
+    a[1]=b[1];
+    a[3]=b[2];
+    a[2]=b[3];*/
+
+    /*
     int b [4] = {a[0], a[1], a[2], a[3]};
 
     switch (k%24) {
@@ -575,162 +721,165 @@ void DEtransposition(int * a, int k ){
         case 1:
             a[0]=b[0];
             a[1]=b[1];
-            a[3]=b[2];
             a[2]=b[3];
+            a[3]=b[2];
             break;
         case 2:
             a[0]=b[0];
-            a[2]=b[1];
             a[1]=b[2];
+            a[2]=b[1];
             a[3]=b[3];
             break;
         case 3:
             a[0]=b[0];
-            a[2]=b[1];
-            a[3]=b[2];
-            a[1]=b[3];
+            a[1]=b[2];
+            a[2]=b[3];
+            a[3]=b[1];
             break;
         case 4:
             a[0]=b[0];
-            a[3]=b[1];
-            a[1]=b[2];
-            a[2]=b[3];
+            a[1]=b[3];
+            a[2]=b[1];
+            a[3]=b[2];
             break;
         case 5:
             a[0]=b[0];
-            a[3]=b[1];
-            a[2]=b[2];
             a[1]=b[3];
+            a[2]=b[2];
+            a[3]=b[1];
             break;
         case 6:
-            a[1]=b[0];
             a[0]=b[1];
+            a[1]=b[0];
             a[2]=b[2];
             a[3]=b[3];
             break;
         case 7:
-            a[1]=b[0];
             a[0]=b[1];
-            a[3]=b[2];
+            a[1]=b[0];
             a[2]=b[3];
+            a[3]=b[2];
             break;
         case 8:
-            a[1]=b[0];
-            a[2]=b[1];
-            a[0]=b[2];
+            a[0]=b[1];
+            a[1]=b[2];
+            a[2]=b[0];
             a[3]=b[3];
             break;
         case 9:
-            a[1]=b[0];
-            a[2]=b[1];
-            a[3]=b[2];
-            a[0]=b[3];
-            break;
-        case 10:
-            a[1]=b[0];
-            a[3]=b[1];
-            a[0]=b[2];
-            a[2]=b[3];
-            break;
-        case 11:
-            a[1]=b[0];
-            a[3]=b[1];
-            a[2]=b[2];
-            a[0]=b[3];
-            break;
-        case 12:
-            a[2]=b[0];
             a[0]=b[1];
             a[1]=b[2];
+            a[2]=b[3];
+            a[3]=b[0];
+            break;
+        case 10:
+            a[0]=b[1];
+            a[1]=b[3];
+            a[2]=b[0];
+            a[3]=b[2];
+            break;
+        case 11:
+            a[0]=b[1];
+            a[1]=b[3];
+            a[2]=b[2];
+            a[3]=b[0];
+            break;
+        case 12:
+            a[0]=b[2];
+            a[1]=b[0];
+            a[2]=b[1];
             a[3]=b[3];
             break;
         case 13:
-            a[2]=b[0];
-            a[0]=b[1];
-            a[3]=b[2];
-            a[1]=b[3];
+            a[0]=b[2];
+            a[1]=b[0];
+            a[2]=b[3];
+            a[3]=b[1];
             break;
         case 14:
-            a[2]=b[0];
-            a[1]=b[1];
             a[0]=b[2];
+            a[1]=b[1];
+            a[2]=b[0];
             a[3]=b[3];
             break;
         case 15:
-            a[2]=b[0];
+            a[0]=b[2];
             a[1]=b[1];
-            a[3]=b[2];
-            a[0]=b[3];
+            a[2]=b[3];
+            a[3]=b[0];
             break;
         case 16:
-            a[2]=b[0];
-            a[3]=b[1];
             a[0]=b[2];
             a[1]=b[3];
+            a[2]=b[0];
+            a[3]=b[1];
             break;
         case 17:
-            a[2]=b[0];
-            a[3]=b[1];
-            a[1]=b[2];
-            a[0]=b[3];
+            a[0]=b[2];
+            a[1]=b[3];
+            a[2]=b[1];
+            a[3]=b[0];
             break;
         case 18:
-            a[3]=b[0];
-            a[0]=b[1];
-            a[1]=b[2];
-            a[2]=b[3];
+            a[0]=b[3];
+            a[1]=b[0];
+            a[2]=b[1];
+            a[3]=b[2];
             break;
         case 19:
-            a[3]=b[0];
-            a[0]=b[1];
+            a[0]=b[3];
+            a[1]=b[0];
             a[2]=b[2];
-            a[1]=b[3];
+            a[3]=b[1];
             break;
         case 20:
-            a[3]=b[0];
+            a[0]=b[3];
             a[1]=b[1];
-            a[0]=b[2];
-            a[2]=b[3];
+            a[2]=b[0];
+            a[3]=b[2];
             break;
         case 21:
-            a[3]=b[0];
+            a[0]=b[3];
             a[1]=b[1];
             a[2]=b[2];
-            a[0]=b[3];
+            a[3]=b[0];
             break;
         case 22:
-            a[3]=b[0];
-            a[2]=b[1];
-            a[0]=b[2];
-            a[1]=b[3];
+            a[0]=b[3];
+            a[1]=b[2];
+            a[2]=b[0];
+            a[3]=b[1];
             break;
         case 23:
-            a[3]=b[0];
-            a[2]=b[1];
-            a[1]=b[2];
             a[0]=b[3];
+            a[1]=b[2];
+            a[2]=b[1];
+            a[3]=b[0];
             break;
         default:
             printf("error!\n");
             break;
-    }
+    }*/
 }
 void DEkeyTransformation(int * k) {
     *k= *k-1;
 }
 void DEprinta(int * a) {
     printf("array: ");
+    fflush(stdout);
     for (int i = 0; i < 4; i++) {
         printf("%d ", a[3-i]);
+        fflush(stdout);
     }
     printf("\n");
+    fflush(stdout);
 }
 void decryptionFuncOn4Bit(int a[4], int * k) {
     for (int i = 0; i < ITERATIONS; ++i) {
-        DEkeyTransformation(k);
-        DEtransposition(&a[0], *k);
-        DEsubstitution(&a[0], *k);
-        DEsubstitution(&a[2], *k);
+        DEkeyTransformation(k);//transform the key for this iteration
+        DEtranspositionProperAlgo(&a[0], *k);//shuffle the 4 bits
+        DEsubstitutionProperAlgo(&a[0], *k);//first half of the nibble, first 2 bits
+        DEsubstitutionProperAlgo(&a[2], *k);//second half of the nibble, second 2 bits
     }
 }
 void hexaStringTo8BitChars(char strInitial[256], char str[128]) {
@@ -850,7 +999,7 @@ int main(void) {
         if (str[i]==0)//if its the end get out
             continue;
 
-        //I divide every char into the 2 4 bit nibbles that compone it, into the firstHalf,secondHalf arrays
+        //I divide every char into the 2, 4 bit nibbles that compone it, into the firstHalf,secondHalf arrays
         //if it is 0001 1000 it is divided in firstHalf= 1000, secondHalf= 0001
         int firstHalf[4]={0};
         int secondHalf[4]={0};
