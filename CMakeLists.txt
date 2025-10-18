@@ -5,4 +5,6 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(ConfusionDiffusion_ encrypting.c
         decrypting.c
-        recursiveExperiment.c)
+        recursiveExperiment.c
+        LikedListExperiment.h
+        LikedListExperiment.c)
