@@ -1,8 +1,19 @@
-//
-// Created by Brando on 18/10/2025.
-//
+//to use declare 2 pointers of type Node
+//Node * head=NULL;
+//Node * tail = head;
+//than call addNode on tail
+//last call freeList from head
 
 #ifndef CONFUSIONDIFFUSION__LIKEDLISTEXPERIMENT_H
 #define CONFUSIONDIFFUSION__LIKEDLISTEXPERIMENT_H
+
+typedef struct Node {
+    unsigned char content;
+    struct Node* next;
+} Node;
+
+void freeList(Node* head);
+void addNode(Node * tail, unsigned char content);
+void printList(Node* head);
 
 #endif //CONFUSIONDIFFUSION__LIKEDLISTEXPERIMENT_H
