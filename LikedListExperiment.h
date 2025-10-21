@@ -1,6 +1,9 @@
 //to use declare 2 pointers of type Node
-//Node * head=NULL;
-//Node * tail = head;
+
+// Node * head=malloc(sizeof(Node));
+// Node * newHead=head;
+// Node ** tail=&newHead;
+
 //than call addNode on tail
 //last call freeList from head
 
@@ -13,7 +16,7 @@ typedef struct Node {
 } Node;
 
 void freeList(Node* head);
-void addNode(Node * tail, unsigned char content);
+void addNode(Node ** tail, unsigned char content);
 void printList(Node* head);
 
 #endif //CONFUSIONDIFFUSION__LIKEDLISTEXPERIMENT_H
