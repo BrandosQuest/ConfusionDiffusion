@@ -1,7 +1,5 @@
-Binary/hex editor plugin based on BinEd library.
+If you want to access individual parts of the date or time, like the year, month, or hour, you can use the localtime() function.
 
-    Use "Open as Binary" action in toolbar of "File/Open" dialog or "Open In/Binary Editor" in project files context menu
-    Use "View as Binary" action in context menu in variables/debug window
-    Associate file extension with "Binary File" file type in Options/Editor/File Types
-    Use "Byte-to-byte compare" in Compare files dialog
-    Use "Edit as Binary" in column context menu in DB view
+This function converts the current time (from time()) into a struct tm, which is a special structure that holds the date and time in separate fields.
+
+Here's how you can use it to print each part of the current date and time:
