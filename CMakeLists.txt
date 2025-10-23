@@ -8,4 +8,5 @@ add_executable(ConfusionDiffusion_ encrypting.c
         recursiveExperiment.c
         LikedListExperiment.h
         LikedListExperiment.c
-        fileEncrypting.c)
+        fileEncrypting.c
+        fileDecrypring.c)

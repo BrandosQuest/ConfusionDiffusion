@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define ITERATIONS 223
+#define ITERATIONS 10
 
 void DEprinta(int * a) {
     printf("array: ");

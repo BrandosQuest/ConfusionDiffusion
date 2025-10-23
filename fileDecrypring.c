@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "LikedListExperiment.h"
 
 #define ITERATIONS 10
 
-void printaFile(int * a) {
+void DEprinta(int * a) {
     printf("array: ");
     fflush(stdout);
     for (int i = 0; i < 4; i++) {
@@ -15,7 +16,7 @@ void printaFile(int * a) {
     printf("\n");
     fflush(stdout);
 }
-void arrayOfIndexesAllPossibleCombinationsFile(int a[4], int k) {
+void DEarrayOfIndexesAllPossibleCombinations(int a[4], int k) {
     //an iterative way to get the n shuffle of 4 elements
     int counter=0;
     for (int i = 0; i < 4; ++i) {
@@ -53,54 +54,154 @@ void arrayOfIndexesAllPossibleCombinationsFile(int a[4], int k) {
         }
     }
 }
-void substitutionProperAlgoFile(int * a, int k ) {
+void DEsubstitutionProperAlgo(int * a, int k ) {
     //for the key k we generate the indexes of the 2 bit combination corresponding
     int c[4]={0};
     unsigned char TwoBitCombinations[4][2]={{0,0}, {0,1}, {1,0},{1,1}};
-    arrayOfIndexesAllPossibleCombinationsFile(c, k);
+    DEarrayOfIndexesAllPossibleCombinations(c, k);
+    int i=0;
     switch ((a[0]*10)+a[1]) {
         case 0://00
-            a[0]=TwoBitCombinations[c[0]][0];
-            a[1]=TwoBitCombinations[c[0]][1];
+        for (i = 0; i < 4; ++i)
+        {
+            if (c[i]==0)
+                break;
+        }
+        a[0]=TwoBitCombinations[i][0];
+        a[1]=TwoBitCombinations[i][1];
             break;
         case 1://01
-            a[0]=TwoBitCombinations[c[1]][0];
-            a[1]=TwoBitCombinations[c[1]][1];
+        for (i = 0; i < 4; ++i)
+        {
+            if (c[i]==1)
+                break;
+        }
+        a[0]=TwoBitCombinations[i][0];
+        a[1]=TwoBitCombinations[i][1];
             break;
         case 10://10
-            a[0]=TwoBitCombinations[c[2]][0];
-            a[1]=TwoBitCombinations[c[2]][1];
+        for (i = 0; i < 4; ++i)
+        {
+            if (c[i]==2)
+                break;
+        }
+        a[0]=TwoBitCombinations[i][0];
+        a[1]=TwoBitCombinations[i][1];
             break;
         case 11://11
-            a[0]=TwoBitCombinations[c[3]][0];
-            a[1]=TwoBitCombinations[c[3]][1];
+
+            for (i = 0; i < 4; ++i)
+            {
+                if (c[i]==3)
+                    break;
+            }
+            a[0]=TwoBitCombinations[i][0];
+            a[1]=TwoBitCombinations[i][1];
             break;
         default:
             printf("Incorrect syntax!\n");
             break;
     }
 }
-void transpositionProperAlgoFile(int * a, int k ){
+void DEtranspositionProperAlgo(int * a, int k ){
     //for the key k we generate the proper shuffle with c the array of indexes
     int c[4]={0};
-    arrayOfIndexesAllPossibleCombinationsFile(c, k);
+    DEarrayOfIndexesAllPossibleCombinations(c, k);
     int b [4] = {a[0], a[1], a[2], a[3]};
     for (int i = 0; i < 4; ++i) {
-        a[i]=b[c[i]];
+        a[c[i]]=b[i];
     }
 }
-void keyTransformationFile(int * k) {
-    *k= *k+1;
+void DEkeyTransformation(int * k) {
+    *k= *k-1;
 }
-void encryptionFuncOn4BitFile(int a[4], int * k) {
+void decryptionFuncOn4Bit(int a[4], int * k) {
     for (int i = 0; i < ITERATIONS; ++i) {
-        substitutionProperAlgoFile(&a[0], *k);
-        substitutionProperAlgoFile(&a[2], *k);
-        transpositionProperAlgoFile(&a[0], *k);
-        keyTransformationFile(k);
+        DEkeyTransformation(k);//transform the key for this iteration
+        DEtranspositionProperAlgo(&a[0], *k);//shuffle the 4 bits
+        DEsubstitutionProperAlgo(&a[0], *k);//first half of the nibble, first 2 bits
+        DEsubstitutionProperAlgo(&a[2], *k);//second half of the nibble, second 2 bits
     }
 }
-int encryptList(Node * head, int k) {
+void hexaStringTo8BitChars(char strInitial[256], char str[128]) {
+    for (int i = 0; i < 256; i=i+2){
+        if (strInitial[i]==0)
+        {
+            break;
+        }
+        for (int j = 0; j < 2; ++j)
+        {
+            if (strInitial[i+j]==0)
+            {
+                break;
+            }
+            char valueOfChar=0;
+            switch (strInitial[i+j])
+            {
+                case '0':
+                    valueOfChar=0;
+                    break;
+                case '1':
+                    valueOfChar=1;
+                    break;
+                case '2':
+                    valueOfChar=2;
+                    break;
+                case '3':
+                    valueOfChar=3;
+                    break;
+                case '4':
+                    valueOfChar=4;
+                    break;
+                case '5':
+                    valueOfChar=5;
+                    break;
+                case '6':
+                    valueOfChar=6;
+                    break;
+                case '7':
+                    valueOfChar=7;
+                    break;
+                case '8':
+                    valueOfChar=8;
+                    break;
+                case '9':
+                    valueOfChar=9;
+                    break;
+                case 'a':
+                    valueOfChar=10;
+                    break;
+                case 'b':
+                    valueOfChar=11;
+                    break;
+                case 'c':
+                    valueOfChar=12;
+                    break;
+                case 'd':
+                    valueOfChar=13;
+                    break;
+                case 'e':
+                    valueOfChar=14;
+                    break;
+                case 'f':
+                    valueOfChar=15;
+                    break;
+                default:
+                    printf("error in the translation of the string to hexa\n");
+                    break;
+            }
+            if (j==0)
+            {
+                str[i/2]=valueOfChar*16;
+            }else
+            {
+                str[i/2]=str[i/2]+valueOfChar;
+            }
+        }
+    }
+
+}
+int decryptList(Node * head, int k) {//to make it run through the list in the opposite direction
     Node* current = head;
     Node* next_node;
     while (head!=NULL)
@@ -136,8 +237,8 @@ int encryptList(Node * head, int k) {
             //I call the encryption on the 2 nibbles using the same value key
             int k1=k;
             int k2=k;
-            encryptionFuncOn4BitFile(firstHalf, &k1);
-            encryptionFuncOn4BitFile(secondHalf, &k2);
+            decryptionFuncOn4Bit(firstHalf, &k1);
+            decryptionFuncOn4Bit(secondHalf, &k2);
             k=k1;
 
             //I combine the 2 encrypted arrays together into the final string
@@ -163,9 +264,9 @@ int encryptList(Node * head, int k) {
         current=next_node;
     }
 }
-void writeListToFile(Node * head) {
+void DEwriteListToFile(Node * head) {
     FILE *fptr;
-    fptr = fopen("encryptedTest.txt", "a");
+    fptr = fopen("decryptedTest.txt", "a");
 
     Node* current = head;
     Node* next_node;
@@ -195,13 +296,12 @@ int main(void) {
     Node ** tail=&newHead;
 
     FILE *fptr;
-    fptr = fopen("test.txt", "r");
+    fptr = fopen("encryptedTest.txt", "r");
     unsigned char c=0;
     while (fread(&c, 1, 1, fptr) == 1)
     {
         addNode(tail, c);
     }
-    //printList(head);
 
 
     int k=0;
@@ -209,11 +309,11 @@ int main(void) {
     fflush(stdout);
     scanf("%d", &k);
 
-    k=encryptList(head,k);
+    k=decryptList(head,k);
 
     printf("\nfinal key: %d", k);
 
-    writeListToFile(head);
+    DEwriteListToFile(head);
 
     freeList(head);
     fclose(fptr);
