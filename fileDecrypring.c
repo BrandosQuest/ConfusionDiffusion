@@ -201,13 +201,11 @@ void hexaStringTo8BitChars(char strInitial[256], char str[128]) {
     }
 
 }
-int decryptList(Node * head, int *k) {//to make it run through the list in the opposite direction
+void decryptList(Node * head, int *k) {
 
     if (head!=NULL && head->next!=NULL)
     {
         decryptList(head->next, k);
-        // (*k)++;
-        // printf("decryptList, k: %d\n", *k);
         {
             unsigned char content=head->content;
             //I divide every char into the 2, 4 bit nibbles that compone it, into the firstHalf,secondHalf arrays
@@ -252,89 +250,27 @@ int decryptList(Node * head, int *k) {//to make it run through the list in the o
                     sh=sh<<4;
             }
             content=sh | fh;
-            //printf("decrypted content: %X", content);
             head->content=content;
         }
     }
-
-    /*
-    Node* current = head;
-    Node* next_node;
-    while (head!=NULL)
-    {
-        next_node = current->next;
-
-        //code
-        {
-            unsigned char content=current->content;
-            //I divide every char into the 2, 4 bit nibbles that compone it, into the firstHalf,secondHalf arrays
-            //if it is 0001 1000 it is divided in firstHalf= 1000, secondHalf= 0001
-            int firstHalf[4]={0};
-            int secondHalf[4]={0};
-            char fh=content & 0xf;
-            char sh=content>>4;
-
-            //for every position of the comparator I select that bit to put into the corresponding array
-            char comparator=1;
-            for (int j = 0; j < 4; j++) {
-                if (fh & comparator) {
-                    firstHalf[j] = 1;
-                }else {
-                    firstHalf[j] = 0;
-                }
-                if (sh & comparator) {
-                    secondHalf[j] = 1;
-                }else {
-                    secondHalf[j] = 0;
-                }
-                comparator = comparator << 1;
-            }
-
-            //I call the encryption on the 2 nibbles using the same value key
-            int k1=k;
-            int k2=k;
-            decryptionFuncOn4Bit(firstHalf, &k1);
-            decryptionFuncOn4Bit(secondHalf, &k2);
-            k=k1;
-
-            //I combine the 2 encrypted arrays together into the final string
-            fh=0;
-            sh=0;
-            for (int j = 3; j >= 0; j--) {
-                fh=fh<<1;
-                fh = fh+firstHalf[j];
-                sh=sh<<1;
-                sh= sh+secondHalf[j];
-                if (j==0)
-                    sh=sh<<4;
-            }
-            content=sh | fh;
-            current->content=content;
-        }
-
-        head=head->next;
-        if (next_node->next == NULL)
-        {
-            return k;
-        }
-        current=next_node;
-    }*/
 }
 void DEwriteListToFile(Node * head) {
+    printf("enter the path/name of where to save the decrypted file: ");
+    char fileName[128];
+    scanf("%s", fileName);
+
     FILE *fptr;
-    fptr = fopen("decryptedTest.txt", "a");
+    fptr = fopen(fileName, "wb");
 
     Node* current = head;
     Node* next_node;
     while (head!=NULL)
     {
         next_node = current->next;
-
         {
             //fwrite(const void * source, size_t size, size_t amount, FILE * fptr);
             fwrite(&current->content, 1, 1, fptr);
         }
-
         head=head->next;
         if (next_node->next == NULL)
         {
@@ -347,12 +283,17 @@ void DEwriteListToFile(Node * head) {
 }
 
 int main(void) {
+    printf("FileEncryption-----------------\n\n");
     Node * head=malloc(sizeof(Node));
     Node * newHead=head;
     Node ** tail=&newHead;
 
+    printf("enter the path/name of the file to decrypt: ");
+    char fileName[128];
+    scanf("%s",fileName);
+
     FILE *fptr;
-    fptr = fopen("encryptedTest.txt", "r");
+    fptr = fopen(fileName, "rb");
     unsigned char c=0;
     while (fread(&c, 1, 1, fptr) == 1)
     {
@@ -365,9 +306,9 @@ int main(void) {
     fflush(stdout);
     scanf("%d", &k);
 
-    k=decryptList(head,&k);
+    decryptList(head,&k);
 
-    printf("\nfinal key: %d", k);
+    printf("final key: %d\n", k);
 
     DEwriteListToFile(head);
 

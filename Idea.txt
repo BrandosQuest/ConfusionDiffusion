@@ -84,3 +84,6 @@ gotta do a proper block cipher so implementing a variable size
 
 
 BinEd - Binary/Hex Editor Plugin
+
+make it ask for the name of files
+make it work wit a key and the dimension of the file

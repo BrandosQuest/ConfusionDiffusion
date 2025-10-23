@@ -28,7 +28,7 @@ void printList(Node* head) {
     {
         next_node = current->next;
 
-        printf("%d\n",head->content);
+        printf("%d\t%X\n",head->content, head->content);
         fflush(stdout);
         head=head->next;
         if (next_node->next == NULL)

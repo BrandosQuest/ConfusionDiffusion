@@ -106,8 +106,6 @@ int encryptList(Node * head, int k) {
     while (head!=NULL)
     {
         next_node = current->next;
-
-        //code
         {
             unsigned char content=current->content;
             //I divide every char into the 2, 4 bit nibbles that compone it, into the firstHalf,secondHalf arrays
@@ -164,8 +162,12 @@ int encryptList(Node * head, int k) {
     }
 }
 void writeListToFile(Node * head) {
+    printf("enter the path/name of where to save the encrypted file: ");
+    char fileName[128];
+    scanf("%s",fileName);
+
     FILE *fptr;
-    fptr = fopen("encryptedTest.txt", "a");
+    fptr = fopen(fileName, "wb");
 
     Node* current = head;
     Node* next_node;
@@ -190,28 +192,33 @@ void writeListToFile(Node * head) {
 }
 
 int main(void) {
+    printf("FileEncryption-----------------\n\n");
     Node * head=malloc(sizeof(Node));
     Node * newHead=head;
     Node ** tail=&newHead;
 
+    printf("enter the path/name of the file to encrypt: ");
+    char fileName[128];
+    scanf("%s",fileName);
+
     FILE *fptr;
-    fptr = fopen("test.txt", "r");
+    fptr = fopen(fileName, "rb");
     unsigned char c=0;
     while (fread(&c, 1, 1, fptr) == 1)
     {
         addNode(tail, c);
     }
-    //printList(head);
-
 
     int k=0;
     printf("key: ");
     fflush(stdout);
     scanf("%d", &k);
 
+    //printList(head);
+
     k=encryptList(head,k);
 
-    printf("\nfinal key: %d", k);
+    printf("final key: %d\n", k);
 
     writeListToFile(head);
 
