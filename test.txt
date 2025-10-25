@@ -3,3 +3,5 @@ If you want to access individual parts of the date or time, like the year, month
 This function converts the current time (from time()) into a struct tm, which is a special structure that holds the date and time in separate fields.
 
 Here's how you can use it to print each part of the current date and time:
+
+
