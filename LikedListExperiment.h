@@ -13,6 +13,7 @@
 typedef struct Node {
     unsigned char content;
     struct Node* next;
+    struct Node* previous;
 } Node;
 
 void freeList(Node* head);

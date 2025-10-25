@@ -201,6 +201,7 @@ void hexaStringTo8BitChars(char strInitial[256], char str[128]) {
     }
 
 }
+/*
 void decryptList(Node * head, int *k) {
 
     if (head!=NULL && head->next!=NULL)
@@ -254,6 +255,116 @@ void decryptList(Node * head, int *k) {
         }
     }
 }
+*/
+void decryptList(Node * tail, int *k) {
+    Node* current = tail->previous;
+    Node* next_node;
+    while (current!=NULL)
+    {
+        next_node = current->previous;
+        {
+            unsigned char content=current->content;
+            //I divide every char into the 2, 4 bit nibbles that compone it, into the firstHalf,secondHalf arrays
+            //if it is 0001 1000 it is divided in firstHalf= 1000, secondHalf= 0001
+            int firstHalf[4]={0};
+            int secondHalf[4]={0};
+            char fh=content & 0xf;
+            char sh=content>>4;
+
+            //for every position of the comparator I select that bit to put into the corresponding array
+            char comparator=1;
+            for (int j = 0; j < 4; j++) {
+                if (fh & comparator) {
+                    firstHalf[j] = 1;
+                }else {
+                    firstHalf[j] = 0;
+                }
+                if (sh & comparator) {
+                    secondHalf[j] = 1;
+                }else {
+                    secondHalf[j] = 0;
+                }
+                comparator = comparator << 1;
+            }
+
+            //I call the encryption on the 2 nibbles using the same value key
+            int k1=(*k);
+            int k2=(*k);
+            decryptionFuncOn4Bit(firstHalf, &k1);
+            decryptionFuncOn4Bit(secondHalf, &k2);
+            (*k)=k1;
+
+            //I combine the 2 encrypted arrays together into the final string
+            fh=0;
+            sh=0;
+            for (int j = 3; j >= 0; j--) {
+                fh=fh<<1;
+                fh = fh+firstHalf[j];
+                sh=sh<<1;
+                sh= sh+secondHalf[j];
+                if (j==0)
+                    sh=sh<<4;
+            }
+            content=sh | fh;
+            current->content=content;
+        }
+        if (current->previous == NULL)
+        {
+            return;
+        }
+        current=next_node;
+    }
+    /*if (head!=NULL && head->next!=NULL)
+    {
+        decryptList(head->next, k);
+        {
+            unsigned char content=head->content;
+            //I divide every char into the 2, 4 bit nibbles that compone it, into the firstHalf,secondHalf arrays
+            //if it is 0001 1000 it is divided in firstHalf= 1000, secondHalf= 0001
+            int firstHalf[4]={0};
+            int secondHalf[4]={0};
+            char fh=content & 0xf;
+            char sh=content>>4;
+
+            //for every position of the comparator I select that bit to put into the corresponding array
+            char comparator=1;
+            for (int j = 0; j < 4; j++) {
+                if (fh & comparator) {
+                    firstHalf[j] = 1;
+                }else {
+                    firstHalf[j] = 0;
+                }
+                if (sh & comparator) {
+                    secondHalf[j] = 1;
+                }else {
+                    secondHalf[j] = 0;
+                }
+                comparator = comparator << 1;
+            }
+
+            //I call the encryption on the 2 nibbles using the same value key
+            int k1=(*k);
+            int k2=(*k);
+            decryptionFuncOn4Bit(firstHalf, &k1);
+            decryptionFuncOn4Bit(secondHalf, &k2);
+            (*k)=k1;
+
+            //I combine the 2 encrypted arrays together into the final string
+            fh=0;
+            sh=0;
+            for (int j = 3; j >= 0; j--) {
+                fh=fh<<1;
+                fh = fh+firstHalf[j];
+                sh=sh<<1;
+                sh= sh+secondHalf[j];
+                if (j==0)
+                    sh=sh<<4;
+            }
+            content=sh | fh;
+            head->content=content;
+        }
+    }*/
+}
 void DEwriteListToFile(Node * head) {
     printf("enter the path/name of where to save the decrypted file: ");
     char fileName[128];
@@ -283,12 +394,14 @@ void DEwriteListToFile(Node * head) {
 }
 
 int main(void) {
-    printf("FileEncryption-----------------\n\n");
+    printf("FileDecryption-----------------\n\n");
     Node * head=malloc(sizeof(Node));
+    head->previous=NULL;
     Node * newHead=head;
     Node ** tail=&newHead;
 
     printf("enter the path/name of the file to decrypt: ");
+    fflush(stdout);
     char fileName[128];
     scanf("%s",fileName);
 
@@ -306,7 +419,7 @@ int main(void) {
     fflush(stdout);
     scanf("%d", &k);
 
-    decryptList(head,&k);
+    decryptList(*tail,&k);
 
     printf("final key: %d\n", k);
 
