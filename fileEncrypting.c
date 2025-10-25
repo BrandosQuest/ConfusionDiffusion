@@ -160,6 +160,7 @@ int encryptList(Node * head, int k) {
         }
         current=next_node;
     }
+    return -1;
 }
 void writeListToFile(Node * head) {
     printf("enter the path/name of where to save the encrypted file: ");
