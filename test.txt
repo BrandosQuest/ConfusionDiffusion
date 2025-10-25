@@ -5,3 +5,7 @@ This function converts the current time (from time()) into a struct tm, which is
 Here's how you can use it to print each part of the current date and time:
 
 
+
+
+adada
+ad
