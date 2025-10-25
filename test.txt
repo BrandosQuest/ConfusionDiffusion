@@ -9,3 +9,8 @@ Here's how you can use it to print each part of the current date and time:
 
 adada
 ad
+da
+da
+d
+aw
+da
