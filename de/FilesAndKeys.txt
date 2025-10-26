@@ -1,0 +1,6 @@
+(test.txt has been encrypted with k=100, to decrypt input k as 8530)
+(testDummy.txt has been encrypted with k=0, to decrypt input k as 18120)
+(testMonotone.txt has been encrypted with k=120304, to decrypt input k as 124104)
+(testImage.png has been encrypted with k=24, to decrypt input k as 19674)
+(testImageDummy.jpg has been encrypted with k=999, to decrypt input k as 1735239)
+(testImageMonotone.png has been encrypted with k=0, to decrypt input k as 4600)
