@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "LikedListExperiment.h"
+#include "LinkedListExperiment.h"
 
 void freeList(Node* head) {
     Node* current = head;
@@ -9,7 +9,7 @@ void freeList(Node* head) {
     while (current != NULL)
     {
         next_node = current->next;
-        //printf("freed: %d\n", current->content);
+        //printf("freed: %testFilesDir\n", current->content);
         //fflush(stdout);
         free(current);
         current = next_node;
@@ -29,7 +29,7 @@ void printList(Node* head) {
     {
         next_node = current->next;
 
-        printf("%d\t%X\n",head->content, head->content);
+        printf("%testFilesDir\t%X\n",head->content, head->content);
         fflush(stdout);
         head=head->next;
         if (next_node->next == NULL)

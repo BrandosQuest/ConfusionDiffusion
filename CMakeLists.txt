@@ -3,10 +3,10 @@ project(ConfusionDiffusion_ C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(ConfusionDiffusion_ encrypting.c
-        decrypting.c
-        recursiveExperiment.c
-        LikedListExperiment.h
-        LikedListExperiment.c
-        fileEncrypting.c
-        fileDecrypring.c)
+add_executable(ConfusionDiffusion_ FirstDraft/encrypting.c
+        FirstDraft/decrypting.c
+        Experiments/recursiveExperiment.c
+        LinkedList/LinkedListExperiment.h
+        LinkedList/LinkedListExperiment.c
+        src/fileEncrypting.c
+        src/fileDecrypting.c)

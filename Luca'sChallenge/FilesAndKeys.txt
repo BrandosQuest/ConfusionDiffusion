@@ -4,3 +4,5 @@
 (testImage.png has been encrypted with k=24, to decrypt input k as 19674)
 (testImageDummy.jpg has been encrypted with k=999, to decrypt input k as 1735239)
 (testImageMonotone.png has been encrypted with k=0, to decrypt input k as 4600)
+
+pw CiaoBrando
