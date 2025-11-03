@@ -9,4 +9,5 @@ add_executable(ConfusionDiffusion_ FirstDraft/encrypting.c
         LinkedList/LinkedListExperiment.h
         LinkedList/LinkedListExperiment.c
         src/fileSrc/fileEncrypting.c
-        src/fileSrc/fileDecrypting.c)
+        src/fileSrc/fileDecrypting.c
+        src/confDiffCLI.c)
