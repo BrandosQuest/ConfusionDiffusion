@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../LinkedList/LinkedListExperiment.h"
+#include "../../LinkedList/LinkedListExperiment.h"
 
 #define ITERATIONS 10
 
@@ -10,7 +10,7 @@ void DEprinta(int * a) {
     printf("array: ");
     fflush(stdout);
     for (int i = 0; i < 4; i++) {
-        printf("%testFilesDir ", a[3-i]);
+        printf("%d ", a[3-i]);
         fflush(stdout);
     }
     printf("\n");
@@ -312,11 +312,11 @@ int main(void) {
     int k=0;
     printf("key: ");
     fflush(stdout);
-    scanf("%testFilesDir", &k);
+    scanf("%d", &k);
 
     decryptList(*tail,&k);
 
-    printf("final key: %testFilesDir\n", k);
+    printf("final key: %d\n", k);
 
     DEwriteListToFile(head);
 

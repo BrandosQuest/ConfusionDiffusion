@@ -87,3 +87,58 @@ BinEd - Binary/Hex Editor Plugin
 
 make it ask for the name of files
 make it work wit a key and the dimension of the file
+
+
+Implement rounds flag --rounds <n> to allow variable iteration count for testing. but a standard value first based on key
+
+cipher encrypt -k <key> -i <input_file> -o <output_file>
+cipher decrypt -k <key> -i <input_file> -o <output_file>
+
+mycipher encrypt -k 0x9F -i plaintext.txt -o ciphertext.bin
+mycipher decrypt -k 0x9F -i ciphertext.bin -o decrypted.txt
+
+
+🧪 6. Testing checklist
+✅ Encrypt–decrypt returns original data.
+✅ Non-text (binary) files work.
+✅ Key changes affect output significantly.
+✅ Same input → different output with different key or rounds.
+✅ Output identical for same key/data → deterministic.
+
+int main(int argc, char *argv[])
+
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        printf("Usage: %s <encrypt|decrypt> -k <key> -i <input> -o <output>\n", argv[0]);
+        return 1;
+    }
+
+    const char *mode = argv[1];
+    const char *key = NULL;
+    const char *input = NULL;
+    const char *output = NULL;
+
+    for (int i = 2; i < argc; i++) {
+        if (strcmp(argv[i], "-k") == 0 && i + 1 < argc)
+            key = argv[++i];
+        else if (strcmp(argv[i], "-i") == 0 && i + 1 < argc)
+            input = argv[++i];
+        else if (strcmp(argv[i], "-o") == 0 && i + 1 < argc)
+            output = argv[++i];
+    }
+
+    if (!key || !input || !output) {
+        printf("Missing required arguments.\n");
+        return 1;
+    }
+
+    printf("Mode: %s\nKey: %s\nInput: %s\nOutput: %s\n", mode, key, input, output);
+
+    // Here you'd call your cipher functions:
+    // if (strcmp(mode, "encrypt") == 0)
+    //     encrypt_file(input, output, key);
+    // else
+    //     decrypt_file(input, output, key);
+
+    return 0;
+}

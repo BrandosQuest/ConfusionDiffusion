@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../LinkedList/LinkedListExperiment.h"
+#include "../../LinkedList/LinkedListExperiment.h"
 
 #define ITERATIONS 10
 
@@ -9,7 +9,7 @@ void printaFile(int * a) {
     printf("array: ");
     fflush(stdout);
     for (int i = 0; i < 4; i++) {
-        printf("%testFilesDir ", a[3-i]);
+        printf("%d ", a[3-i]);
         fflush(stdout);
     }
     printf("\n");
@@ -199,6 +199,7 @@ int main(void) {
     Node ** tail=&newHead;
 
     printf("enter the path/name of the file to encrypt: ");
+    fflush(stdout);
     char fileName[128];
     scanf("%s",fileName);
 
@@ -213,13 +214,13 @@ int main(void) {
     int k=0;
     printf("key: ");
     fflush(stdout);
-    scanf("%testFilesDir", &k);
+    scanf("%d", &k);
 
     //printList(head);
 
     k=encryptList(head,k);
 
-    printf("final key: %testFilesDir\n", k);
+    printf("final key: %d\n", k);
 
     writeListToFile(head);
 

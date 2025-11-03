@@ -9,7 +9,7 @@ void freeList(Node* head) {
     while (current != NULL)
     {
         next_node = current->next;
-        //printf("freed: %testFilesDir\n", current->content);
+        //printf("freed: %d\n", current->content);
         //fflush(stdout);
         free(current);
         current = next_node;
@@ -29,7 +29,7 @@ void printList(Node* head) {
     {
         next_node = current->next;
 
-        printf("%testFilesDir\t%X\n",head->content, head->content);
+        printf("%d\t%X\n",head->content, head->content);
         fflush(stdout);
         head=head->next;
         if (next_node->next == NULL)

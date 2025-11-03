@@ -18,21 +18,44 @@ CC = gcc
 #| `-pedantic` | Enforce strict ISO C rules        | `gcc -std=c11 -pedantic main.c` |
 CFLAGS = -Wall -Wextra -O2
 
-# List of source files SRC / OBJ Lists source and object files
-SRC = src/fileDecrypting.c LinkedList/LinkedListExperiment.c
+SRC_EN = fileEncrypting.c ../../LinkedList/LinkedListExperiment.c# List of source files SRC / OBJ Lists source and object files
+OBJ_EN = $(SRC_EN:.c=.o)# Object files (same names but .o extension) — make automatically replaces .c → .o
+TARGET_EN = ../../bin\fileEncrypt.exe# Output executable name
 
-# Object files (same names but .o extension) — make automatically replaces .c → .o
-OBJ = $(SRC:.c=.o)
+SRC_DE = fileDecrypting.c ../../LinkedList/LinkedListExperiment.c
+OBJ_DE = $(SRC_DE:.c=.o)
+TARGET_DE = ../../bin\fileDecrypt.exe
 
-# Output executable name
-TARGET = bin\fileDecry.exe
+# --- Combined Variables ---
+ALL_OBJ = $(OBJ_EN) $(OBJ_DE)
+ALL_TARGETS = $(TARGET_EN) $(TARGET_DE)
+
+# Default rule: build ALL targets The default build target (when you just type make)
+all: $(ALL_TARGETS)
+
+# Linking Rule 1: Build the Cipher Executable
+$(TARGET_EN): $(OBJ_EN)#How to link object files into one executable
+	$(CC) $(CFLAGS) -o $@ $^
+
+# Linking Rule 2: Build the Utility Executable
+$(TARGET_DE): $(OBJ_DE)
+	$(CC) $(CFLAGS) -o $@ $^
+
+## List of source files SRC / OBJ Lists source and object files
+#SRC = fileDecrypting.c ../../LinkedList/LinkedListExperiment.c
+#
+## Object files (same names but .o extension) — make automatically replaces .c → .o
+#OBJ = $(SRC:.c=.o)
+#
+## Output executable name
+#TARGET = ../../bin\fileDecrypt.exe
 
 # Default rule: build the program all The default build target (when you just type make)
-all: $(TARGET)
+#all: $(TARGET)
 
 # Link object files into final executable How to link object files into one executable
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^
+#$(TARGET): $(OBJ)
+#	$(CC) $(CFLAGS) -o $@ $^
 
 # Compile each .c file into a .o file Automatic variables in Make: $@ = target, $^ = dependencies, $< = first dependency
 %.o: %.c
@@ -40,15 +63,15 @@ $(TARGET): $(OBJ)
 
 # Clean up all generated files Command to remove build files
 clean:
-	del /F /Q $(subst /,\,$(OBJ)) $(subst /,\,$(TARGET))
+	del /F /Q $(subst /,\,$(ALL_OBJ)) $(subst /,\,$(ALL_TARGETS))
 #	rm -f $(OBJ) $(TARGET)
 
 # Optional: test run (custom command)  Custom shortcut to compile and run in one step
-run: $(TARGET)
-	./$(TARGET) encrypt -k 0x9F -i input.txt -o output.bin
+#run: $(TARGET)
+#	./$(TARGET) encrypt -k 0x9F -i input.txt -o output.bin
 
 # Phony targets (not real files) Declares that all, clean, and run are not filenames
-.PHONY: all clean run
+.PHONY: all clean
 
 
 #| Command      | What it does                                       |

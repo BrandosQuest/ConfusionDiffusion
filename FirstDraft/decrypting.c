@@ -7,7 +7,7 @@ void DEprinta(int * a) {
     printf("array: ");
     fflush(stdout);
     for (int i = 0; i < 4; i++) {
-        printf("%testFilesDir ", a[3-i]);
+        printf("%d ", a[3-i]);
         fflush(stdout);
     }
     printf("\n");
@@ -226,7 +226,7 @@ int main(void) {
 
     int k=0;
     printf("key: ");
-    scanf("%testFilesDir", &k);
+    scanf("%d", &k);
 
     char str[128]={0};
     //I convert the Hexa value displayed by chars in the input string in real 8 bit chars in a string of 128
@@ -288,7 +288,7 @@ int main(void) {
             break;
         printf("%02x", (unsigned char) str[i]);
     }
-    printf("\nfinal key: %testFilesDir", k);
+    printf("\nfinal key: %d", k);
     return 0;
 }
 

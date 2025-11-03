@@ -7,7 +7,7 @@ void printa(int * a) {
     printf("array: ");
     fflush(stdout);
     for (int i = 0; i < 4; i++) {
-        printf("%testFilesDir ", a[3-i]);
+        printf("%d ", a[3-i]);
         fflush(stdout);
     }
     printf("\n");
@@ -129,7 +129,7 @@ int main(void) {
     int k=0;
     printf("key: ");
     fflush(stdout);
-    scanf("%testFilesDir", &k);
+    scanf("%d", &k);
 
     //for every character in the string
     for (int i = 0; i < 128; ++i) {
@@ -186,6 +186,6 @@ int main(void) {
             break;
         printf("%02x", (unsigned char) str[i]);
     }
-    printf("\nfinal key: %testFilesDir", k);
+    printf("\nfinal key: %d", k);
     return 0;
 }
