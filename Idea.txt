@@ -105,40 +105,13 @@ mycipher decrypt -k 0x9F -i ciphertext.bin -o decrypted.txt
 ✅ Same input → different output with different key or rounds.
 ✅ Output identical for same key/data → deterministic.
 
-int main(int argc, char *argv[])
+key is a 6 digits base 10 number, not all composed of repeating numbers or 123456 or 012345
+it must contain 24*24*24 = 13824 combinations, substitutionkey*transpositionKey*IterationsNumber(could be more than 24)
+(iteration num can vary in the 24 num range but ITERATIONS must start from at least 8)
+I do inKey%13824 and get the real key
 
-int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        printf("Usage: %s <encrypt|decrypt> -k <key> -i <input> -o <output>\n", argv[0]);
-        return 1;
-    }
+I do %24 and get the first key than /24
+I do %24 and get the second key than /24
+I do %24 and get the third key
 
-    const char *mode = argv[1];
-    const char *key = NULL;
-    const char *input = NULL;
-    const char *output = NULL;
-
-    for (int i = 2; i < argc; i++) {
-        if (strcmp(argv[i], "-k") == 0 && i + 1 < argc)
-            key = argv[++i];
-        else if (strcmp(argv[i], "-i") == 0 && i + 1 < argc)
-            input = argv[++i];
-        else if (strcmp(argv[i], "-o") == 0 && i + 1 < argc)
-            output = argv[++i];
-    }
-
-    if (!key || !input || !output) {
-        printf("Missing required arguments.\n");
-        return 1;
-    }
-
-    printf("Mode: %s\nKey: %s\nInput: %s\nOutput: %s\n", mode, key, input, output);
-
-    // Here you'd call your cipher functions:
-    // if (strcmp(mode, "encrypt") == 0)
-    //     encrypt_file(input, output, key);
-    // else
-    //     decrypt_file(input, output, key);
-
-    return 0;
-}
+Than use the keys
