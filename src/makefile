@@ -21,7 +21,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -O2
 
 # List of source files SRC / OBJ Lists source and object files
-SRC = confDiffCLI.c
+SRC = confDiffCLI.c fileSrc/fileDecrypting.c fileSrc/fileEncrypting.c ../LinkedList/LinkedListExperiment.c
 
 # Object files (same names but .o extension) — make automatically replaces .c → .o
 OBJ = $(SRC:.c=.o)

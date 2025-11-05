@@ -288,6 +288,7 @@ void DEwriteListToFile(Node * head) {
     fclose(fptr);
 }
 
+/*
 int main(void) {
     printf("FileDecryption-----------------\n\n");
     Node * head=malloc(sizeof(Node));
@@ -325,3 +326,4 @@ int main(void) {
 
     return 0;
 }
+*/
