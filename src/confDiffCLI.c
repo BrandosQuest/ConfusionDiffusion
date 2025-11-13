@@ -2,8 +2,65 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "fileSrc/fileDecrypting.h"
-#include "fileSrc/fileEncrypting.h"
+#include "fileSrc/fileDeUtils.h"
+#include "fileSrc/fileEnUtils.h"
+
+void encrypt(char *inputFile, char *outputFile, int keyTransposition, int keySubstitution, int keyIterations) {
+    //encrypt code
+    printf("keyTransposition %d\n", keyTransposition);
+    printf("keySubstitution %d\n", keySubstitution);
+    printf("keyIterations %d\n", keyIterations);
+
+    Node * head=malloc(sizeof(Node));
+    Node * newHead=head;
+    Node ** tail=&newHead;
+
+    FILE *fptr;
+    fptr = fopen(inputFile, "rb");
+    unsigned char c=0;
+    while (fread(&c, 1, 1, fptr) == 1)
+    {
+        addNode(tail, c);
+    }
+
+    keyTransposition=encryptList(head,keyTransposition);
+
+    printf("final key: %d\n", keyTransposition);
+
+    writeListToFile(head, outputFile);
+
+    freeList(head);
+    fclose(fptr);
+}
+void decrypt(char *inputFile, char *outputFile, int keyTransposition, int keySubstitution, int keyIterations) {
+    //decrypt code
+    printf("keyTransposition %d\n", keyTransposition);
+    printf("keySubstitution %d\n", keySubstitution);
+    printf("keyIterations %d\n", keyIterations);
+
+    Node * head=malloc(sizeof(Node));
+    head->previous=NULL;
+    Node * newHead=head;
+    Node ** tail=&newHead;
+
+    FILE *fptr;
+    fptr = fopen(outputFile, "rb");
+    unsigned char c=0;
+    while (fread(&c, 1, 1, fptr) == 1)
+    {
+        addNode(tail, c);
+    }
+
+
+    decryptList(*tail,&keyTransposition);
+
+    printf("final key: %d\n", keyTransposition);
+
+    DEwriteListToFile(head);
+
+    freeList(head);
+    fclose(fptr);
+}
 
 int main(int argc, char *argv[]) {
     if (!(argc == 8 && (strcmp(argv[1], "encrypt") == 0 || strcmp(argv[1], "decrypt") == 0)
@@ -43,35 +100,12 @@ int main(int argc, char *argv[]) {
 
     if (strcmp(argv[1], "encrypt") == 0)
     {
-        //encrypt code
-        printf("keyTransposition %d\n", keyTransposition);
-        printf("keySubstitution %d\n", keySubstitution);
-        printf("keyIterations %d\n", keyIterations);
-
-        Node * head=malloc(sizeof(Node));
-        Node * newHead=head;
-        Node ** tail=&newHead;
-
-        FILE *fptr;
-        fptr = fopen(inputFile, "rb");
-        unsigned char c=0;
-        while (fread(&c, 1, 1, fptr) == 1)
-        {
-            addNode(tail, c);
-        }
-
-        key=encryptList(head,key);
-
-        printf("final key: %d\n", key);
-
-        writeListToFile(head);
-
-        freeList(head);
-        fclose(fptr);
+        encrypt(inputFile, outputFile, keyTransposition, keySubstitution, keyIterations);
     }
     else
     {
-        //decrypt code
+        decrypt(inputFile, outputFile, keyTransposition, keySubstitution, keyIterations);
+        /*//decrypt code
         Node * head=malloc(sizeof(Node));
         head->previous=NULL;
         Node * newHead=head;
@@ -93,6 +127,6 @@ int main(int argc, char *argv[]) {
         DEwriteListToFile(head);
 
         freeList(head);
-        fclose(fptr);
+        fclose(fptr);*/
     }
 }

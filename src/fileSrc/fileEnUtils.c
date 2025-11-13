@@ -1,3 +1,6 @@
+//
+// Created by Brando on 13/11/2025.
+//
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -162,13 +165,9 @@ int encryptList(Node * head, int k) {
     }
     return -1;
 }
-void writeListToFile(Node * head) {
-    printf("enter the path/name of where to save the encrypted file: ");
-    char fileName[128];
-    scanf("%s",fileName);
-
+void writeListToFile(Node * head, char *outputFile) {
     FILE *fptr;
-    fptr = fopen(fileName, "wb");
+    fptr = fopen(outputFile, "wb");
 
     Node* current = head;
     Node* next_node;
@@ -191,42 +190,3 @@ void writeListToFile(Node * head) {
     }
     fclose(fptr);
 }
-
-int main(void) {
-    printf("FileEncryption-----------------\n\n");
-    Node * head=malloc(sizeof(Node));
-    Node * newHead=head;
-    Node ** tail=&newHead;
-
-    printf("enter the path/name of the file to encrypt: ");
-    fflush(stdout);
-    char fileName[128];
-    scanf("%s",fileName);
-
-    FILE *fptr;
-    fptr = fopen(fileName, "rb");
-    unsigned char c=0;
-    while (fread(&c, 1, 1, fptr) == 1)
-    {
-        addNode(tail, c);
-    }
-
-    int k=0;
-    printf("key: ");
-    fflush(stdout);
-    scanf("%d", &k);
-
-    //printList(head);
-
-    k=encryptList(head,k);
-
-    printf("final key: %d\n", k);
-
-    writeListToFile(head);
-
-    freeList(head);
-    fclose(fptr);
-
-    return 0;
-}
-//pw CiaoBrando

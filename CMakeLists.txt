@@ -11,5 +11,7 @@ add_executable(ConfusionDiffusion_ FirstDraft/encrypting.c
         src/fileSrc/fileEncrypting.c
         src/fileSrc/fileDecrypting.c
         src/confDiffCLI.c
-        src/fileSrc/fileDecrypting.h
-        src/fileSrc/fileEncrypting.h)
+        src/fileSrc/fileDeUtils.h
+        src/fileSrc/fileEnUtils.h
+        src/fileSrc/fileEnUtils.c
+        src/fileSrc/fileDeUtils.c)
