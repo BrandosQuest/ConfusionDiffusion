@@ -44,7 +44,7 @@ void decrypt(char *inputFile, char *outputFile, int keyTransposition, int keySub
     Node ** tail=&newHead;
 
     FILE *fptr;
-    fptr = fopen(outputFile, "rb");
+    fptr = fopen(inputFile, "rb");
     unsigned char c=0;
     while (fread(&c, 1, 1, fptr) == 1)
     {
@@ -54,9 +54,9 @@ void decrypt(char *inputFile, char *outputFile, int keyTransposition, int keySub
 
     decryptList(*tail,&keyTransposition);
 
-    printf("final key: %d\n", keyTransposition);
+    printf("final keyy: %d\n", keyTransposition);
 
-    DEwriteListToFile(head);
+    DEwriteListToFile(head, outputFile);
 
     freeList(head);
     fclose(fptr);

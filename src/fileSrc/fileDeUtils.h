@@ -14,6 +14,6 @@ void DEkeyTransformation(int * k);
 void decryptionFuncOn4Bit(int a[4], int * k);
 void hexaStringTo8BitChars(char strInitial[256], char str[128]);
 void decryptList(Node * tail, int *k);
-void DEwriteListToFile(Node * head);
+void DEwriteListToFile(Node * head, char *outputFile);
 
 #endif //CONFUSIONDIFFUSION__FILEDECRYPTING_H

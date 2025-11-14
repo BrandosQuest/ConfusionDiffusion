@@ -117,6 +117,7 @@ void DEtranspositionProperAlgo(int * a, int k ){
 }
 void DEkeyTransformation(int * k) {
     *k= *k-1;
+    //printf("DEkeyTransformation: %d\n", *k);
 }
 void decryptionFuncOn4Bit(int a[4], int * k) {
     for (int i = 0; i < ITERATIONS; ++i) {
@@ -263,13 +264,9 @@ void decryptList(Node * tail, int *k) {
         current=next_node;
     }
 }
-void DEwriteListToFile(Node * head) {
-    printf("enter the path/name of where to save the decrypted file: ");
-    char fileName[128];
-    scanf("%s", fileName);
-
+void DEwriteListToFile(Node * head, char *outputFile) {
     FILE *fptr;
-    fptr = fopen(fileName, "wb");
+    fptr = fopen(outputFile, "wb");
 
     Node* current = head;
     Node* next_node;
