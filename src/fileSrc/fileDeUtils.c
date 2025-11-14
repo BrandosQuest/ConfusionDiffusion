@@ -117,6 +117,10 @@ void DEtranspositionProperAlgo(int * a, int k ){
 }
 void DEkeyTransformation(int * k) {
     *k= *k-1;
+    if (*k<0)
+    {
+        *k=23;
+    }
     //printf("DEkeyTransformation: %d\n", *k);
 }
 void decryptionFuncOn4Bit(int a[4], int * k) {
