@@ -10,6 +10,7 @@ void encrypt(char *inputFile, char *outputFile, int keyTransposition, int keySub
     printf("keyTransposition %d\n", keyTransposition);
     printf("keySubstitution %d\n", keySubstitution);
     printf("keyIterations %d\n", keyIterations);
+    //all the keys must be used in their respective aspects and the final result printed for debugging
 
     Node * head=malloc(sizeof(Node));
     Node * newHead=head;
@@ -37,6 +38,7 @@ void decrypt(char *inputFile, char *outputFile, int keyTransposition, int keySub
     printf("keyTransposition %d\n", keyTransposition);
     printf("keySubstitution %d\n", keySubstitution);
     printf("keyIterations %d\n", keyIterations);
+    //all the keys must be used in their respective aspects, and must be derived by the list size. and the final result printed for debugging
 
     Node * head=malloc(sizeof(Node));
     head->previous=NULL;

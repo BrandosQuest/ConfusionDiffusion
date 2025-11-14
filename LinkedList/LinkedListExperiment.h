@@ -14,6 +14,7 @@ typedef struct Node {
     unsigned char content;
     struct Node* next;
     struct Node* previous;
+    //unsigned int positionIndex;
 } Node;
 
 void freeList(Node* head);
