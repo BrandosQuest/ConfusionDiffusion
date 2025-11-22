@@ -17,10 +17,12 @@ void freeList(Node* head) {
 }
 void addNode(Node ** tail, unsigned char content) {
     (*tail)->content = content;
+    unsigned int position=(*tail)->positionIndex;
     //(*tail)->positionIndex = (*tail)->previous->positionIndex+1;
     (*tail)->next = malloc(sizeof(Node));
     (*tail)->next->next=NULL;
     (*tail)->next->previous=*tail;
+    (*tail)->next->positionIndex=++position;
     *tail = (*tail)->next;
 }
 void printList(Node* head) {

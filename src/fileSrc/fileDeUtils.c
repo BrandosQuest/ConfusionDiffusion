@@ -209,9 +209,12 @@ void hexaStringTo8BitChars(char strInitial[256], char str[128]) {
     }
 
 }
-void decryptList(Node * tail, int *k) {
+void decryptList(Node * tail, int *k, unsigned int positionIndex) {
     Node* current = tail->previous;
     Node* next_node;
+
+    *k=*k+(positionIndex*ITERATIONS);
+
     while (current!=NULL)
     {
         next_node = current->previous;

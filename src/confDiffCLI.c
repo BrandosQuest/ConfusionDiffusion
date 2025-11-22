@@ -15,6 +15,7 @@ void encrypt(char *inputFile, char *outputFile, int keyTransposition, int keySub
     Node * head=malloc(sizeof(Node));
     Node * newHead=head;
     Node ** tail=&newHead;
+    (*tail)->positionIndex=0;
 
     FILE *fptr;
     fptr = fopen(inputFile, "rb");
@@ -44,6 +45,7 @@ void decrypt(char *inputFile, char *outputFile, int keyTransposition, int keySub
     head->previous=NULL;
     Node * newHead=head;
     Node ** tail=&newHead;
+    (*tail)->positionIndex=0;
 
     FILE *fptr;
     fptr = fopen(inputFile, "rb");
@@ -51,10 +53,12 @@ void decrypt(char *inputFile, char *outputFile, int keyTransposition, int keySub
     while (fread(&c, 1, 1, fptr) == 1)
     {
         addNode(tail, c);
+        //printf("position index: %d\n", (*tail)->positionIndex);
     }
+    printf("final position index: %d\n", (*tail)->positionIndex);
 
 
-    decryptList(*tail,&keyTransposition);
+    decryptList(*tail,&keyTransposition, (*tail)->positionIndex);
 
     printf("final keyy: %d\n", keyTransposition);
 
