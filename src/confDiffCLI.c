@@ -24,7 +24,7 @@ void encrypt(char *inputFile, char *outputFile, int keyTransposition, int keySub
         addNode(tail, c);
     }
 
-    keyTransposition=encryptList(head,keyTransposition);
+    encryptList(head, &keyTransposition);
 
     printf("final key: %d\n", keyTransposition);
 

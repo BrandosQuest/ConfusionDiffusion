@@ -12,7 +12,7 @@ void substitutionProperAlgoFile(int * a, int k );
 void transpositionProperAlgoFile(int * a, int k );
 void keyTransformationFile(int * k);
 void encryptionFuncOn4BitFile(int a[4], int * k);
-int encryptList(Node * head, int k);
+int encryptList(Node * head, int *k);
 void writeListToFile(Node * head, char *outputFile);
 
 #endif //CONFUSIONDIFFUSION__FILEENCRYPTING_H

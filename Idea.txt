@@ -115,3 +115,6 @@ I do %24 and get the second key than /24
 I do %24 and get the third key
 
 Than use the keys
+
+
+to implement the check for notfound files!!!

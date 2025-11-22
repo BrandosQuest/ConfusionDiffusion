@@ -103,7 +103,7 @@ void encryptionFuncOn4BitFile(int a[4], int * k) {
         keyTransformationFile(k);
     }
 }
-int encryptList(Node * head, int k) {
+void encryptList(Node * head, int *k) {
     Node* current = head;
     Node* next_node;
     while (head!=NULL)
@@ -135,11 +135,11 @@ int encryptList(Node * head, int k) {
             }
 
             //I call the encryption on the 2 nibbles using the same value key
-            int k1=k;
-            int k2=k;
+            int k1=(*k);
+            int k2=(*k);
             encryptionFuncOn4BitFile(firstHalf, &k1);
             encryptionFuncOn4BitFile(secondHalf, &k2);
-            k=k1;
+            (*k)=k1;
 
             //I combine the 2 encrypted arrays together into the final string
             fh=0;
@@ -159,11 +159,10 @@ int encryptList(Node * head, int k) {
         head=head->next;
         if (next_node->next == NULL)
         {
-            return k;
+            return;
         }
         current=next_node;
     }
-    return -1;
 }
 void writeListToFile(Node * head, char *outputFile) {
     FILE *fptr;
