@@ -12,7 +12,7 @@ void DEsubstitutionProperAlgo(int * a, int k );
 void DEtranspositionProperAlgo(int * a, int k );
 void DEkeyTransformation(int * k);
 void decryptionFuncOn4Bit(int a[4], int * k);
-void hexaStringTo8BitChars(char strInitial[256], char str[128]);
+//void hexaStringTo8BitChars(char strInitial[256], char str[128]);
 void decryptList(Node * tail, int *k, unsigned int positionIndex);
 void DEwriteListToFile(Node * head, char *outputFile);
 

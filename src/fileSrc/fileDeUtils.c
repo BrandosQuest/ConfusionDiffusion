@@ -131,6 +131,7 @@ void decryptionFuncOn4Bit(int a[4], int * k) {
         DEsubstitutionProperAlgo(&a[2], *k);//second half of the nibble, second 2 bits
     }
 }
+/*
 void hexaStringTo8BitChars(char strInitial[256], char str[128]) {
     for (int i = 0; i < 256; i=i+2){
         if (strInitial[i]==0)
@@ -209,6 +210,7 @@ void hexaStringTo8BitChars(char strInitial[256], char str[128]) {
     }
 
 }
+*/
 void decryptList(Node * tail, int *k, unsigned int positionIndex) {
     Node* current = tail->previous;
     Node* next_node;
