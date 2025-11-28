@@ -2,35 +2,31 @@
 #include <stdlib.h>
 #include <string.h>
 
+//This includes contain the liked list implementation
 #include "fileSrc/fileDeUtils.h"
 #include "fileSrc/fileEnUtils.h"
 
 
 void encrypt(char *inputFile, char *outputFile, int key) {
-    //encrypt code
-    //printf("key %d\n", key);
-
+    //Linked list for file reading and writing
     Node * head=malloc(sizeof(Node));
     Node * newHead=head;
     Node ** tail=&newHead;
     (*tail)->positionIndex=0;
 
     FILE *fptr;
-    if ((fptr = fopen(inputFile, "rb")) == NULL)
+    if ((fptr = fopen(inputFile, "rb")) == NULL)//this always executes the fopen
     {
-        printf("WRONG ARGUMENTS\nMost probably the input_file does not exist or is misspelled");
+        printf("WRONG ARGUMENTS\nMost probably the input_file does not exist or is misspelled\n");
         return;
     }
-    //fptr = fopen(inputFile, "rb");
     unsigned char c=0;
-    while (fread(&c, 1, 1, fptr) == 1)
+    while (fread(&c, 1, 1, fptr) == 1)//reading a byte at a time
     {
         addNode(tail, c);
     }
 
     encryptList(head, &key);
-
-    //printf("final key: %d\n", key);
 
     writeListToFile(head, outputFile);
 
@@ -39,9 +35,7 @@ void encrypt(char *inputFile, char *outputFile, int key) {
     printf("Saved encrypted file in: %s", outputFile);
 }
 void decrypt(char *inputFile, char *outputFile, int key) {
-    //decrypt code
-    //printf("key %d\n", key);
-
+    //Linked list for file reading and writing
     Node * head=malloc(sizeof(Node));
     head->previous=NULL;
     Node * newHead=head;
@@ -51,21 +45,16 @@ void decrypt(char *inputFile, char *outputFile, int key) {
     FILE *fptr;
     if ((fptr = fopen(inputFile, "rb")) == NULL)
     {
-        printf("WRONG ARGUMENTS\nMost probably the input_file does not exist or is misspelled");
+        printf("WRONG ARGUMENTS\nMost probably the input_file does not exist or is misspelled\n");
         return;
     }
-    //fptr = fopen(inputFile, "rb");
     unsigned char c=0;
     while (fread(&c, 1, 1, fptr) == 1)
     {
         addNode(tail, c);
     }
-    //printf("final position index: %d\n", (*tail)->positionIndex);
-
 
     decryptList(*tail,&key, (*tail)->positionIndex);
-
-    //printf("final keyy: %d\n", key);
 
     DEwriteListToFile(head, outputFile);
 
@@ -83,7 +72,7 @@ int main(int argc, char *argv[]) {
         printf("-should have been: "
                "cipher.exe decrypt -k <key2digits> -i <input_file> -o <output_file>\n"
                "-example: "
-               ".\\confDiffCLI.exe encrypt -k 78 -i plaintext.txt -o ciphertext");
+               ".\\confDiffCLI.exe encrypt -k 78 -i plaintext.txt -o ciphertext\n");
         return 0;
     }
     int i;
@@ -96,9 +85,8 @@ int main(int argc, char *argv[]) {
 
     const char *strKey = argv[3];
     char *endptr;
-    int key;
     // Convert the string to a long integer
-    key = (int) strtol(strKey, &endptr, 10);
+    int key = (int) strtol(strKey, &endptr, 10);
     //display the long hexadecimal integer number
     //printf("The inputted key is: %d\n", key);
 
